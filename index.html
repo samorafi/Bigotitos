@@ -1,36 +1,116 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tienda de Mascotas</title>
     <link rel="stylesheet" href="css/estilos.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
+
 <body>
-    <header>
-        <h1>Bienvenido a nuestra Tienda de Mascotas</h1>
-        <form action="buscar.php" method="GET">
-            <input type="text" name="q" placeholder="Buscar productos...">
-            <button type="submit">Buscar</button>
+    <header class="text-center p-3">
+        <h1>Bienvenido a nuestra Tienda de Mascotas Bigotitos</h1>
+        <form action="buscar.php" method="GET" class="d-flex justify-content-center mt-2">
+            <input type="text" name="q" class="form-control w-50" placeholder="Buscar productos...">
+            <button type="submit" class="btn">Buscar</button>
         </form>
     </header>
-    <nav>
-        <ul>
-            <li><a href="index.html">Inicio</a></li>
-            <li><a href="aves.html">Aves</a></li>
-            <li><a href="gatos.html">Gatos</a></li>
-            <li><a href="perros.html">Perros</a></li>
-            <li><a href="peces.html">Peces</a></li>
-            <li><a href="reptiles.html">Reptiles</a></li>
-            <li><a href="roedores.html">Roedores</a></li>
-            <li><a href="granja.html">Granja</a></li>
-        </ul>
+    
+    <nav class="navbar navbar-expand-lg">
+    <div class="container">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mx-auto">
+                    <li><a href="index.html">Inicio</a></li>
+                    <li><a href="paginas/aves.html">Aves</a></li>
+                    <li><a href="gatos.html">Gatos</a></li>
+                    <li><a href="perros.html">Perros</a></li>
+                    <li><a href="peces.html">Peces</a></li>
+                    <li><a href="reptiles.html">Reptiles</a></li>
+                    <li><a href="roedores.html">Roedores</a></li>
+                    <li><a href="granja.html">Granja</a></li>
+                </ul>
+            </div>
+        </div>
     </nav>
     <main>
-        <p>Encuentra los mejores productos para tu mascota.</p>
+        <p> "Nos especializamos en productos premium para mascotas que buscan lo mejor. Desde alimentos naturales y orgánicos hasta accesorios de diseño y cuidados especializados, nos aseguramos de que cada producto que ofrecemos cumpla con los más altos estándares de calidad. Porque tus mascotas merecen una vida saludable, feliz y llena de mimos."
+        </p>
     </main>
+    <div id="carouselProductos" class="carousel slide container mt-4" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="img/Purina-Logo.png" class="d-block mx-auto" alt="Producto 1">
+            </div>
+            <div class="carousel-item">
+                <img src="img/Petstages.png" class="d-block mx-auto" alt="Producto 2">
+            </div>
+            <div class="carousel-item">
+                <img src="img/Tetra_Logo.png" class="d-block mx-auto" alt="Producto 3">
+            </div>
+            <div class="carousel-item">
+                <img src="img/kaytee.png" class="d-block mx-auto" alt="Producto 4">
+            </div>
+            <div class="carousel-item">
+                <img src="img/living.world.jpg" class="d-block mx-auto" alt="Producto 5">
+            </div>
+            <div class="carousel-item">
+                <img src="img/mana_pro.png" class="d-block mx-auto" alt="Producto 6">
+            </div>
+            <div class="carousel-item">
+                <img src="img/Royal_Canin.png" class="d-block mx-auto" alt="Producto 7">
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselProductos" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselProductos" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        </button>
+    </div>
+
     <footer>
-        <p>&copy; 2025 Tienda de Mascotas</p>
+        
+        <div class="footer-section">
+            <h3>Síguenos</h3>
+            <div class="footer-social">
+                <a href="#"><img src="img/instagram.png" alt="Instagram"></a>
+                <a href="#"><img src="img/facebook.png" alt="Facebook"></a>
+                <a href="#"><img src="img/whatsapp.png" alt="WhatsApp"></a>
+            </div>
+        </div>
+        
+        <div class="footer-section">
+            <h3>Horario</h3>
+            <ul>
+                <li>Lunes a Sábado: 9:00am - 5:00pm</li>
+                <li>Domingo: Cerrado</li>
+            </ul>
+        </div>
+        
+        <div class="footer-section">
+            <h3>Menú</h3>
+            <ul>
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="#">Quiénes somos</a></li>
+                <li><a href="#">Servicios</a></li>
+                <li><a href="#">Blog</a></li>
+                <li><a href="#">Contacto</a></li>
+            </ul>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2025 Tienda de Mascotas | Desarrollado por <strong>Tu Empresa</strong></p>
+        </div>
     </footer>
+    
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
+
 </html>
