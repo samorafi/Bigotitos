@@ -1,5 +1,6 @@
 <?php
-include_once "Controller/ProductosController.php"; // Incluir controlador si es necesario
+include_once $_SERVER["DOCUMENT_ROOT"] . "/Bigotitos/Controller/ProductosController.php";
+
 ?>
 
 <!DOCTYPE html>
