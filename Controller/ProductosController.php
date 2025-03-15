@@ -1,27 +1,54 @@
 <?php
 include_once $_SERVER["DOCUMENT_ROOT"] . "/Bigotitos/Model/ProductosModel.php";
 
-if (session_status() == PHP_SESSION_NONE) {
-    session_start();
-}
 
-// 📌 Insertar un producto
-if (isset($_POST["btnInsertarProducto"])) {
-    $id_producto = $_POST["txtIDProducto"];
-    $nombre = $_POST["txtNombre"];
-    $descripcion = $_POST["txtDescripcion"];
-    $precio = number_format($_POST["txtPrecio"], 2, '.', '');
-    $existencias = $_POST["txtExistencias"];
-    $id_categoria = $_POST["txtIDCategoria"];
-    $id_especie = $_POST["txtIDEspecie"];
-    $id_proveedor = $_POST["txtIDProveedor"];
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    
+    // 📌 Insertar Producto
+    if (isset($_POST["btnAgregarProducto"])) {
+        $id = ProductosModel::ObtenerProximoID();
+        $nombre = $_POST["txtNombre"];
+        $descripcion = $_POST["txtDescripcion"];
+        $precio = number_format($_POST["txtPrecio"], 2, '.', '');
+        $existencias = $_POST["txtExistencias"];
+        $categoria = $_POST["txtIDCategoria"];
+        $especie = $_POST["txtIDEspecie"];
+        $proveedor = $_POST["txtIDProveedor"];
 
-    $resultado = ProductosModel::InsertarProducto($id_producto, $nombre, $descripcion, $precio, $existencias, $id_categoria, $id_especie, $id_proveedor);
+        if (ProductosModel::InsertarProducto($id, $nombre, $descripcion, $precio, $existencias, $categoria, $especie, $proveedor)) {
+            header('location: ../View/productos.php');
+        } else {
+            echo "❌ Error al insertar producto.";
+        }
+    }
 
-    if ($resultado) {
-        header('location: ../View/productos.php');
-    } else {
-        $_SESSION["Message"] = "Error al registrar el producto.";
+    // 📌 Actualizar Producto
+    if (isset($_POST["btnActualizarProducto"])) {
+        $id = $_POST["txtIDProducto"];
+        $nombre = $_POST["txtNombre"];
+        $descripcion = $_POST["txtDescripcion"];
+        $precio = number_format($_POST["txtPrecio"], 2, '.', '');
+        $existencias = $_POST["txtExistencias"];
+        $categoria = $_POST["txtIDCategoria"];
+        $especie = $_POST["txtIDEspecie"];
+        $proveedor = $_POST["txtIDProveedor"];
+
+        if (ProductosModel::ActualizarProducto($id, $nombre, $descripcion, $precio, $existencias, $categoria, $especie, $proveedor)) {
+            header('location: ../View/productos.php');
+        } else {
+            echo "❌ Error al actualizar producto.";
+        }
+    }
+
+    // 📌 Eliminar Producto
+    if (isset($_POST["btnEliminarProducto"])) {
+        $id = $_POST["txtIDProducto"];
+
+        if (ProductosModel::EliminarProducto($id)) {
+            header('location: ../View/productos.php');
+        } else {
+            echo "❌ Error al eliminar producto.";
+        }
     }
 }
 ?>
