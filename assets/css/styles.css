@@ -1,0 +1,35 @@
+/* Estilos Generales */
+body {
+    background-color: #f8f9fa;
+    font-family: Arial, sans-serif;
+}
+
+/* Encabezado */
+h1 {
+    color: #007bff;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+}
+
+/* Barra de Búsqueda */
+.input-group {
+    max-width: 500px;
+    margin: auto;
+}
+
+/* Tarjeta de Productos */
+.card {
+    max-width: 400px;
+    margin: auto;
+    border-radius: 10px;
+}
+
+.card-body {
+    padding: 20px;
+}
+
+/* Botón */
+.btn {
+    border-radius: 20px;
+    font-weight: bold;
+}
