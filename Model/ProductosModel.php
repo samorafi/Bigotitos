@@ -14,6 +14,17 @@ class ProductosModel {
         }
     }
 
+    public static function ObtenerCategorias() {
+        
+    }
+
+    public static function ObtenerEspecies() {
+        
+    }
+    public static function ObtenerProveedores() {
+        
+    }
+
     // 🔹 Obtener todos los productos desde la vista `V_STOCK_PRODUCTOS`
     public static function ConsultarProductos() {
         try {
