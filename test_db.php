@@ -3,7 +3,7 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-include_once "Conexion.php"; // Asegúrate de que la ruta es correcta
+include_once "Conexion.php";
 
 try {
     $conexion = Conexion::conectar();

@@ -1,8 +1,8 @@
 <?php
 class Conexion {
-    private static $dsn = "odbc:OracleDSN"; // Nombre del DSN configurado en ODBC
-    private static $usuario = "tienda_mascotas"; // Usuario de Oracle
-    private static $password = "tienda123"; // Contraseña de Oracle
+    private static $dsn = "odbc:OracleDSN"; 
+    private static $usuario = "tienda_mascotas";
+    private static $password = "tienda123"; 
 
     public static function conectar() {
         try {

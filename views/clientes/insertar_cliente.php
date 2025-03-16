@@ -2,7 +2,6 @@
 include_once "../../Model/ClientesModel.php";
 include_once "../../Model/UsuariosModel.php";
 
-// Obtener el próximo ID de cliente
 $id_cliente = ClientesModel::ObtenerProximoID();
 $usuarios = UsuariosModel::ConsultarUsuarios();
 ?>
@@ -13,11 +12,8 @@ $usuarios = UsuariosModel::ConsultarUsuarios();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>➕ Insertar Cliente - Bigotitos</title>
-    <!-- Agregar Bootstrap -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-    <!-- Agregar Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-    <!-- Agregar estilos personalizados -->
     <link rel="stylesheet" href="../../assets/css/styles.css">
     <style>
         .card {
@@ -28,7 +24,6 @@ $usuarios = UsuariosModel::ConsultarUsuarios();
 </head>
 <body>
 
-    <!-- Barra de navegación -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
             <a class="navbar-brand" href="../../index.php">🐾 Bigotitos</a>
@@ -48,7 +43,6 @@ $usuarios = UsuariosModel::ConsultarUsuarios();
         </div>
     </nav>
 
-    <!-- Contenido principal -->
     <div class="container my-5">
         <div class="card shadow">
             <div class="card-header bg-success text-white text-center">
@@ -58,7 +52,6 @@ $usuarios = UsuariosModel::ConsultarUsuarios();
                 <form action="../../Controller/ClientesController.php" method="POST">
                     <input type="hidden" name="txtIDCliente" value="<?= $id_cliente ?>">
 
-                    <!-- Seleccionar Usuario -->
                     <div class="mb-3">
                         <label class="form-label">Seleccionar Usuario:</label>
                         <select name="txtIDUsuario" class="form-select" required>
@@ -68,13 +61,11 @@ $usuarios = UsuariosModel::ConsultarUsuarios();
                         </select>
                     </div>
 
-                    <!-- Dirección -->
                     <div class="mb-3">
                         <label class="form-label">Dirección:</label>
                         <textarea name="txtDireccion" class="form-control" rows="3" placeholder="Ingrese la dirección" required></textarea>
                     </div>
 
-                    <!-- Botón de envío -->
                     <div class="d-grid">
                         <button type="submit" name="btnAgregarCliente" class="btn btn-success">
                             <i class="bi bi-plus-circle"></i> Agregar Cliente
@@ -90,7 +81,6 @@ $usuarios = UsuariosModel::ConsultarUsuarios();
         </div>
     </div>
 
-    <!-- Scripts de Bootstrap -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

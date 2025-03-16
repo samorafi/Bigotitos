@@ -9,11 +9,8 @@ $categorias = CategoriasModel::ConsultarCategorias();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>✏️ Actualizar Categoría - Bigotitos</title>
-    <!-- Agregar Bootstrap -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-    <!-- Agregar Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-    <!-- Agregar estilos personalizados -->
     <link rel="stylesheet" href="../assets/css/styles.css">
     <style>
         .card {
@@ -24,7 +21,6 @@ $categorias = CategoriasModel::ConsultarCategorias();
 </head>
 <body>
 
-    <!-- Barra de navegación -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
             <a class="navbar-brand" href="../../index.php">🐾 Bigotitos</a>
@@ -44,7 +40,6 @@ $categorias = CategoriasModel::ConsultarCategorias();
         </div>
     </nav>
 
-    <!-- Contenido principal -->
     <div class="container my-5">
         <div class="card shadow">
             <div class="card-header bg-warning text-white text-center">
@@ -52,7 +47,6 @@ $categorias = CategoriasModel::ConsultarCategorias();
             </div>
             <div class="card-body">
                 <form action="../Controller/CategoriasController.php" method="POST">
-                    <!-- Seleccionar Categoría -->
                     <div class="mb-3">
                         <label class="form-label">Seleccionar Categoría:</label>
                         <select name="txtIDCategoria" class="form-select" required>
@@ -62,13 +56,11 @@ $categorias = CategoriasModel::ConsultarCategorias();
                         </select>
                     </div>
 
-                    <!-- Nuevo Nombre -->
                     <div class="mb-3">
                         <label class="form-label">Nuevo Nombre:</label>
                         <input type="text" name="txtNombre" class="form-control" placeholder="Ingrese el nuevo nombre" required>
                     </div>
 
-                    <!-- Botón de envío -->
                     <div class="d-grid">
                         <button type="submit" name="btnActualizarCategoria" class="btn btn-warning">
                             <i class="bi bi-pencil-square"></i> Actualizar Categoría
@@ -84,7 +76,6 @@ $categorias = CategoriasModel::ConsultarCategorias();
         </div>
     </div>
 
-    <!-- Scripts de Bootstrap -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

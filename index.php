@@ -1,5 +1,4 @@
 <?php
-// Incluye los controladores necesarios
 include_once $_SERVER["DOCUMENT_ROOT"] . "/Bigotitos/Controller/ProductosController.php";
 //include_once $_SERVER["DOCUMENT_ROOT"] . "/Bigotitos/Controller/ProveedoresController.php";
 //include_once $_SERVER["DOCUMENT_ROOT"] . "/Bigotitos/Controller/EspeciesController.php";
@@ -19,11 +18,8 @@ include_once $_SERVER["DOCUMENT_ROOT"] . "/Bigotitos/Controller/ProductosControl
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Bigotitos - Inicio</title>
-    <!-- Agregar Bootstrap -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-    <!-- Agregar Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-    <!-- Agregar el archivo de estilos -->
     <link rel="stylesheet" href="assets/css/styles.css">
 </head>
 
@@ -72,7 +68,6 @@ include_once $_SERVER["DOCUMENT_ROOT"] . "/Bigotitos/Controller/ProductosControl
     <div class="container mt-5">
         <h1 class="text-center">🐾 Bienvenido a Bigotitos 🐾</h1>
 
-        <!-- Barra de Búsqueda -->
         <form action="View/productos/productos.php" method="GET" class="my-4">
             <div class="input-group">
                 <input type="text" class="form-control" name="search" placeholder="Buscar productos..." required>
@@ -80,9 +75,7 @@ include_once $_SERVER["DOCUMENT_ROOT"] . "/Bigotitos/Controller/ProductosControl
             </div>
         </form>
 
-        <!-- Tarjetas para la gestión de cada tabla -->
         <div class="row">
-            <!-- Gestión de Productos -->
             <div class="col-md-4 mb-4">
                 <div class="card shadow text-center">
                     <div class="card-body">
@@ -94,7 +87,6 @@ include_once $_SERVER["DOCUMENT_ROOT"] . "/Bigotitos/Controller/ProductosControl
                 </div>
             </div>
 
-            <!-- Gestión de Proveedores -->
             <div class="col-md-4 mb-4">
                 <div class="card shadow text-center">
                     <div class="card-body">
@@ -106,7 +98,6 @@ include_once $_SERVER["DOCUMENT_ROOT"] . "/Bigotitos/Controller/ProductosControl
                 </div>
             </div>
 
-            <!-- Gestión de Especies -->
             <div class="col-md-4 mb-4">
                 <div class="card shadow text-center">
                     <div class="card-body">
@@ -118,7 +109,6 @@ include_once $_SERVER["DOCUMENT_ROOT"] . "/Bigotitos/Controller/ProductosControl
                 </div>
             </div>
 
-            <!-- Gestión de Categorías -->
             <div class="col-md-4 mb-4">
                 <div class="card shadow text-center">
                     <div class="card-body">
@@ -130,7 +120,6 @@ include_once $_SERVER["DOCUMENT_ROOT"] . "/Bigotitos/Controller/ProductosControl
                 </div>
             </div>
 
-            <!-- Gestión de Usuarios -->
             <div class="col-md-4 mb-4">
                 <div class="card shadow text-center">
                     <div class="card-body">
@@ -142,7 +131,6 @@ include_once $_SERVER["DOCUMENT_ROOT"] . "/Bigotitos/Controller/ProductosControl
                 </div>
             </div>
 
-            <!-- Gestión de Empleados -->
             <div class="col-md-4 mb-4">
                 <div class="card shadow text-center">
                     <div class="card-body">
@@ -154,7 +142,6 @@ include_once $_SERVER["DOCUMENT_ROOT"] . "/Bigotitos/Controller/ProductosControl
                 </div>
             </div>
 
-            <!-- Gestión de Clientes -->
             <div class="col-md-4 mb-4">
                 <div class="card shadow text-center">
                     <div class="card-body">
@@ -166,7 +153,6 @@ include_once $_SERVER["DOCUMENT_ROOT"] . "/Bigotitos/Controller/ProductosControl
                 </div>
             </div>
 
-            <!-- Gestión de Ventas -->
             <div class="col-md-4 mb-4">
                 <div class="card shadow text-center">
                     <div class="card-body">
@@ -178,7 +164,6 @@ include_once $_SERVER["DOCUMENT_ROOT"] . "/Bigotitos/Controller/ProductosControl
                 </div>
             </div>
 
-            <!-- Gestión de Detalle de Ventas -->
             <div class="col-md-4 mb-4">
                 <div class="card shadow text-center">
                     <div class="card-body">
@@ -193,7 +178,6 @@ include_once $_SERVER["DOCUMENT_ROOT"] . "/Bigotitos/Controller/ProductosControl
         </div>
     </div>
 
-    <!-- Scripts de Bootstrap -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>

@@ -4,31 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>📦 Gestión de Productos - Bigotitos</title>
-    <!-- Agregar Bootstrap -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-    <!-- Agregar Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-    <!-- Agregar estilos personalizados -->
     <link rel="stylesheet" href="../assets/css/styles.css">
     <style>
-        /* Estilo para que todas las tarjetas tengan el mismo tamaño */
         .card {
-            min-height: 300px; /* Ajusta este valor según sea necesario */
+            min-height: 300px;
             display: flex;
             flex-direction: column;
-            justify-content: space-between; /* Distribuye el espacio uniformemente */
+            justify-content: space-between; 
         }
         .card-body {
-            flex-grow: 1; /* Hace que el cuerpo de la tarjeta ocupe el espacio disponible */
+            flex-grow: 1;
             display: flex;
             flex-direction: column;
-            justify-content: center; /* Centra el contenido verticalmente */
+            justify-content: center;
         }
     </style>
 </head>
 <body>
 
-    <!-- Barra de navegación -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
             <a class="navbar-brand" href="../../index.php">🐾 Bigotitos</a>
@@ -48,13 +43,10 @@
         </div>
     </nav>
 
-    <!-- Contenido principal -->
     <div class="container my-5">
         <h1 class="text-center mb-4">📦 Gestión de Productos</h1>
 
-        <!-- Tarjetas de acciones -->
         <div class="row justify-content-center">
-            <!-- Insertar Producto -->
             <div class="col-md-3 mb-4">
                 <div class="card shadow text-center">
                     <div class="card-body">
@@ -66,7 +58,6 @@
                 </div>
             </div>
 
-            <!-- Actualizar Producto -->
             <div class="col-md-3 mb-4">
                 <div class="card shadow text-center">
                     <div class="card-body">
@@ -78,7 +69,6 @@
                 </div>
             </div>
 
-            <!-- Eliminar Producto -->
             <div class="col-md-3 mb-4">
                 <div class="card shadow text-center">
                     <div class="card-body">
@@ -90,7 +80,6 @@
                 </div>
             </div>
 
-            <!-- Consultar Producto -->
             <div class="col-md-3 mb-4">
                 <div class="card shadow text-center">
                     <div class="card-body">
@@ -104,7 +93,6 @@
         </div>
     </div>
 
-    <!-- Scripts de Bootstrap -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
