@@ -1,7 +1,6 @@
 <?php
 include_once "../../Model/ProveedoresModel.php";
 
-$id_proveedor = ProveedoresModel::ObtenerProximoID();
 ?>
 
 <!DOCTYPE html>

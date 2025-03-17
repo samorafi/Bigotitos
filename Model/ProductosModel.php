@@ -3,7 +3,7 @@ include_once $_SERVER["DOCUMENT_ROOT"] . "/Bigotitos/Conexion.php";
 
 class ProductosModel {
 
-    // 🔹 Obtener el próximo ID de Producto
+    /*🔹 Obtener el próximo ID de Producto
     public static function ObtenerProximoID() {
         try {
             $conexion = Conexion::conectar();
@@ -12,7 +12,7 @@ class ProductosModel {
         } catch (PDOException $e) {
             return 1;
         }
-    }
+    }*/
 
     public static function ObtenerCategorias() {
         
@@ -25,7 +25,7 @@ class ProductosModel {
         
     }
 
-    // 🔹 Obtener todos los productos desde la vista `V_STOCK_PRODUCTOS`
+    /* 🔹 Obtener todos los productos "FALTA CORREGIR ESTA PARTE QUITAR EL SELECT DEL CODIGO"
     public static function ConsultarProductos() {
         try {
             $conexion = Conexion::conectar();
@@ -34,7 +34,7 @@ class ProductosModel {
         } catch (PDOException $e) {
             return [];
         }
-    }
+    }*/
 
     // 🔹 Obtener un producto por ID usando el procedimiento almacenado
     public static function ObtenerProducto($id_producto) {

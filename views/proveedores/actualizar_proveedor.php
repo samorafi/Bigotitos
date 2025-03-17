@@ -1,6 +1,5 @@
 <?php
 include_once "../../Model/ProveedoresModel.php";
-$proveedores = ProveedoresModel::ConsultarProveedores();
 ?>
 
 <!DOCTYPE html>
