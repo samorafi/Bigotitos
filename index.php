@@ -65,28 +65,52 @@ include_once $_SERVER["DOCUMENT_ROOT"] . "/Bigotitos/Controller/ProductosControl
         </div>
     </nav>
 
-    <div class="container mt-5">
-        <h1 class="text-center">🐾 Bienvenido a Bigotitos 🐾</h1>
-
-        <form action="View/productos/productos.php" method="GET" class="my-4">
-            <div class="input-group">
-                <input type="text" class="form-control" name="search" placeholder="Buscar productos..." required>
-                <button class="btn btn-primary" type="submit">Buscar</button>
-            </div>
-        </form>
-
-        <div class="row">
-            <div class="col-md-4 mb-4">
-                <div class="card shadow text-center">
-                    <div class="card-body">
-                        <i class="bi bi-box-seam display-4 text-success"></i>
-                        <h5 class="card-title mt-3">Gestión de Productos</h5>
-                        <p class="card-text">Administra los productos de la tienda.</p>
-                        <a href="Views/productos/productos.php" class="btn btn-success">Ir a Productos</a>
-                    </div>
+<div class="container mt-5">
+    <h1 class="text-center">🐾 Bienvenido a Bigotitos 🐾</h1>
+    <form action="View/productos.php" method="GET" class="my-4">
+        <div class="input-group">
+            <input type="text" class="form-control" name="search" placeholder="Buscar productos..." required>
+            <button class="btn btn-primary" type="submit">Buscar</button>
+        </div>
+    </form>
+    <div class="row">
+        <div class="col-md-4 mb-4">
+            <div class="card shadow text-center">
+                <div class="card-body">
+                    <h5 class="card-title">Gestión de Productos</h5>
+                    <p class="card-text">Administra los productos de la tienda.</p>
+                    <a href="Views/productos.php" class="btn btn-success">Ir a Productos</a>
                 </div>
             </div>
-
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card shadow text-center">
+                <div class="card-body">
+                    <h5 class="card-title">Gestión de Clientes</h5>
+                    <p class="card-text">Administra los Clientes de la tienda.</p>
+                    <a href="Views/Clientes/Clientes.php" class="btn btn-success">Ir a Clientes</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card shadow text-center">
+                <div class="card-body">
+                    <h5 class="card-title">Gestión de Empleados</h5>
+                    <p class="card-text">Administra los Empleados de la tienda.</p>
+                    <a href="Views/Empleados/Empleados.php" class="btn btn-success">Ir a Empleados</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card shadow text-center">
+                <div class="card-body">
+                    <h5 class="card-title">Gestión de Usuarios</h5>
+                    <p class="card-text">Administra los Usuarios de la tienda.</p>
+                    <a href="Views/Usuarios/usuarios.php" class="btn btn-success">Ir a Usuarios</a>
+                </div>
+            </div>       
+        </div> 
+            
             <div class="col-md-4 mb-4">
                 <div class="card shadow text-center">
                     <div class="card-body">
@@ -118,40 +142,7 @@ include_once $_SERVER["DOCUMENT_ROOT"] . "/Bigotitos/Controller/ProductosControl
                         <a href="Views/categorias/categorias.php" class="btn btn-success">Ir a Categorías</a>
                     </div>
                 </div>
-            </div>
-
-            <div class="col-md-4 mb-4">
-                <div class="card shadow text-center">
-                    <div class="card-body">
-                        <i class="bi bi-people display-4 text-info"></i>
-                        <h5 class="card-title mt-3">Gestión de Usuarios</h5>
-                        <p class="card-text">Administra los usuarios del sistema.</p>
-                        <a href="Views/usuarios/usuarios.php" class="btn btn-success">Ir a Usuarios</a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-4 mb-4">
-                <div class="card shadow text-center">
-                    <div class="card-body">
-                        <i class="bi bi-person-badge display-4 text-secondary"></i>
-                        <h5 class="card-title mt-3">Gestión de Empleados</h5>
-                        <p class="card-text">Administra los empleados de la tienda.</p>
-                        <a href="Views/empleados/empleados.php" class="btn btn-success">Ir a Empleados</a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-4 mb-4">
-                <div class="card shadow text-center">
-                    <div class="card-body">
-                        <i class="bi bi-person-circle display-4 text-success"></i>
-                        <h5 class="card-title mt-3">Gestión de Clientes</h5>
-                        <p class="card-text">Administra los clientes de la tienda.</p>
-                        <a href="Views/clientes/clientes.php" class="btn btn-success">Ir a Clientes</a>
-                    </div>
-                </div>
-            </div>
+            </div>         
 
             <div class="col-md-4 mb-4">
                 <div class="card shadow text-center">
@@ -177,6 +168,7 @@ include_once $_SERVER["DOCUMENT_ROOT"] . "/Bigotitos/Controller/ProductosControl
             </div>
         </div>
     </div>
+
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 

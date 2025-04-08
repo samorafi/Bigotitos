@@ -1,17 +1,20 @@
 <?php
-class Conexion {
-    private static $dsn = "odbc:OracleDSN"; 
-    private static $usuario = "tienda_mascotas";
-    private static $password = "tienda123"; 
+function AbrirBD() {
+    $usuario = "tienda_mascotas1";
+    $password = "tienda1234";
+    $host = "localhost/ORCL";
 
-    public static function conectar() {
-        try {
-            $conexion = new PDO(self::$dsn, self::$usuario, self::$password);
-            $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            return $conexion;
-        } catch (PDOException $e) {
-            die("❌ Error de conexión: " . $e->getMessage());
-        }
+    $conexion = oci_connect($usuario, $password, $host, 'AL32UTF8');
+
+    if (!$conexion) {
+        $error = oci_error();
+        die("Error de conexión: " . $error['message']);
     }
+
+    return $conexion;
+}
+
+function CerrarBD($conexion) {
+    oci_close($conexion);
 }
 ?>

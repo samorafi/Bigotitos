@@ -1,47 +1,49 @@
 <?php
 include_once $_SERVER["DOCUMENT_ROOT"] . "/Bigotitos/Conexion.php";
 
-
-    function ConsultarClientesModel() {
+    function ConsultarUsuariosModel() {
         try {
+
             $enlace = AbrirBD();
 
-            $sentencia = "BEGIN SP_OBTENER_CLIENTES_CS(:cursor); END;";
+            $sentencia = "BEGIN SP_OBTENER_USUARIOS_CS(:cursor); END;";
             $stmt = oci_parse($enlace, $sentencia);
 
             $cursor = oci_new_cursor($enlace);
+
             oci_bind_by_name($stmt, ":cursor", $cursor, -1, OCI_B_CURSOR);
 
             oci_execute($stmt);
 
-            oci_execute($cursor, OCI_DEFAULT);
+            oci_execute($cursor);
 
-            $clientes = [];
+            $usuarios = [];
+
             while ($row = oci_fetch_assoc($cursor)) {
-                $clientes[] = $row;
+                $usuarios[] = $row;
             }
 
             oci_free_statement($stmt);
             oci_free_statement($cursor);
             oci_close($enlace);
+            return $usuarios;
 
-            return $clientes;
         } catch (Exception $ex) {
-            error_log("Error en ConsultarClientesModel: " . $ex->getMessage());
+            error_log("Error en ConsultarUsuariosModel: " . $ex->getMessage());
             return null;
         }
     }
 
-    function ConsultarClienteModel($id_cliente) {
+    function ConsultarUsuarioModel($id_usuario) {
         try {
             $enlace = AbrirBD();
 
-            $sentencia = "BEGIN SP_OBTENER_CLIENTE_CS(:V_ID_CLIENTE, :V_CURSOR); END;";
+            $sentencia = "BEGIN SP_OBTENER_USUARIO_CS(:V_ID_USUARIO, :V_CURSOR); END;";
             $stmt = oci_parse($enlace, $sentencia);
 
             $cursor = oci_new_cursor($enlace);
 
-            oci_bind_by_name($stmt, ':V_ID_CLIENTE', $id_cliente, -1, SQLT_INT);
+            oci_bind_by_name($stmt, ':V_ID_USUARIO', $id_usuario, -1, SQLT_INT);
             oci_bind_by_name($stmt, ':V_CURSOR', $cursor, -1, OCI_B_CURSOR);
 
             oci_execute($stmt);
@@ -51,13 +53,11 @@ include_once $_SERVER["DOCUMENT_ROOT"] . "/Bigotitos/Conexion.php";
             $usuario = null;
             if ($row = oci_fetch_assoc($cursor)) {
                 $usuario = [
-                    'ID_CLIENTE' => $id_cliente,
-                    'ID_USUARIO' => $row['ID_USUARIO'],
+                    'ID_USUARIO' => $id_usuario,
                     'NOMBRE' => $row['NOMBRE'],
                     'APELLIDO' => $row['APELLIDO'],
                     'TELEFONO' => $row['TELEFONO'],
-                    'CORREO' => $row['CORREO'],
-                    'DIRECCION' => $row['DIRECCION']
+                    'CORREO' => $row['CORREO']
                 ];
             }
     
@@ -68,20 +68,23 @@ include_once $_SERVER["DOCUMENT_ROOT"] . "/Bigotitos/Conexion.php";
             return $usuario;
     
         } catch (Exception $e) {
-            error_log("Error en ConsultarClienteModel: " . $e->getMessage());
+            error_log("Error en ConsultarUsuarioModel: " . $e->getMessage());
             return null;
         }
     }
-    
-    function IngresarClienteModel($id_usuario, $direccion){
+      
+    function IngresarUsuarioModel($nombre, $apellido, $telefono, $correo, $contrasenna){
         try {
             $enlace = AbrirBD();
     
-            $sql = 'BEGIN SP_INSERTAR_CLIENTES(:P_ID_USUARIO, :P_DIRECCION); END;';
+            $sql = 'BEGIN SP_INSERTAR_USUARIO(:P_NOMBRE, :P_APELLIDO, :P_TELEFONO, :P_CORREO, :P_CONTRASENNA); END;';
             $stmt = oci_parse($enlace, $sql);
     
-            oci_bind_by_name($stmt, ':P_ID_USUARIO', $id_usuario);
-            oci_bind_by_name($stmt, ':P_DIRECCION', $direccion);
+            oci_bind_by_name($stmt, ':P_NOMBRE', $nombre);
+            oci_bind_by_name($stmt, ':P_APELLIDO', $apellido);
+            oci_bind_by_name($stmt, ':P_TELEFONO', $telefono);
+            oci_bind_by_name($stmt, ':P_CORREO', $correo);
+            oci_bind_by_name($stmt, ':P_CONTRASENNA', $contrasenna);
     
             $ejecutado = oci_execute($stmt);
     
@@ -94,21 +97,23 @@ include_once $_SERVER["DOCUMENT_ROOT"] . "/Bigotitos/Conexion.php";
             }
     
         } catch (Exception $e) {
-            error_log("Error en IngresarClienteModel: " . $e->getMessage());
+            error_log("Error en IngresarUsuarioModel: " . $e->getMessage());
             return false;
         }
     }
 
-    function ActualizarClienteModel($id_cliente, $id_usuario, $direccion) {
+    function ActualizarUsuarioModel($id_usuario, $nombre, $apellido, $telefono, $correo) {
         try {
             $enlace = AbrirBD();
     
-            $sql = 'BEGIN SP_ACTUALIZAR_CLIENTES(:P_ID_CLIENTE, :P_ID_USUARIO, :P_DIRECCION); END;';
+            $sql = 'BEGIN SP_ACTUALIZAR_USUARIO(:P_ID_USUARIO, :P_NOMBRE, :P_APELLIDO, :P_TELEFONO, :P_CORREO); END;';
             $stmt = oci_parse($enlace, $sql);
     
-            oci_bind_by_name($stmt, ':P_ID_CLIENTE', $id_cliente);
             oci_bind_by_name($stmt, ':P_ID_USUARIO', $id_usuario);
-            oci_bind_by_name($stmt, ':P_DIRECCION', $direccion);
+            oci_bind_by_name($stmt, ':P_NOMBRE', $nombre);
+            oci_bind_by_name($stmt, ':P_APELLIDO', $apellido);
+            oci_bind_by_name($stmt, ':P_TELEFONO', $telefono);
+            oci_bind_by_name($stmt, ':P_CORREO', $correo);
     
             $ejecutado = oci_execute($stmt);
     
@@ -121,18 +126,18 @@ include_once $_SERVER["DOCUMENT_ROOT"] . "/Bigotitos/Conexion.php";
             }
     
         } catch (Exception $e) {
-            error_log("Error en ActualizarClienteModel: " . $e->getMessage());
+            error_log("Error en ActualizarUsuarioModel: " . $e->getMessage());
             return false;
         }
     }  
 
-    function EliminarClienteModel($id_cliente) {
+    function EliminarUsuarioModel($id_usuario) {
         try {
             $enlace = AbrirBD();
-            $sql = "BEGIN SP_ELIMINAR_CLIENTE(:P_ID_CLIENTE); END;";
+            $sql = "BEGIN SP_ELIMINAR_USUARIO(:V_ID_USUARIO); END;";
             $stmt = oci_parse($enlace, $sql);
 
-            oci_bind_by_name($stmt, ':P_ID_CLIENTE', $id_cliente, -1, SQLT_INT);
+            oci_bind_by_name($stmt, ':V_ID_USUARIO', $id_usuario, -1, SQLT_INT);
 
             $resultado = oci_execute($stmt);
 
@@ -145,10 +150,9 @@ include_once $_SERVER["DOCUMENT_ROOT"] . "/Bigotitos/Conexion.php";
             oci_free_statement($stmt);
             oci_close($enlace);
         } catch (Exception $e) {
-            error_log("Error al eliminar cliente: " . $e->getMessage());
+            error_log("Error al eliminar usuario: " . $e->getMessage());
             return false;
         }
     }
 
 ?>
-
