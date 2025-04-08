@@ -1,6 +1,7 @@
 <?php
 include_once $_SERVER["DOCUMENT_ROOT"] . "/Bigotitos/Conexion.php";
 
+
     function ConsultarEmpleadosModel() {
         try {
             $enlace = AbrirBD(); 
@@ -149,3 +150,4 @@ include_once $_SERVER["DOCUMENT_ROOT"] . "/Bigotitos/Conexion.php";
     }
 
 ?>
+

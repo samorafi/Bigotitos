@@ -4,7 +4,7 @@ include_once $_SERVER["DOCUMENT_ROOT"] . "/Bigotitos/Model/ProductosModel.php";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
-    // 📌 Insertar Producto
+    /* 📌 Insertar Producto
     if (isset($_POST["btnAgregarProducto"])) {
         $id = ProductosModel::ObtenerProximoID();
         $nombre = $_POST["txtNombre"];
@@ -20,7 +20,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         } else {
             echo "❌ Error al insertar producto.";
         }
-    }
+    }*/
 
     // 📌 Actualizar Producto
     if (isset($_POST["btnActualizarProducto"])) {
