@@ -1,102 +1,256 @@
 <?php
 include_once $_SERVER["DOCUMENT_ROOT"] . "/Bigotitos/Conexion.php";
 
-class ProductosModel {
-
-    /*🔹 Obtener el próximo ID de Producto
-    public static function ObtenerProximoID() {
+    function ConsultarProductosModel() {
         try {
-            $conexion = Conexion::conectar();
-            $stmt = $conexion->query("SELECT NVL(MAX(ID_PRODUCTO), 0) + 1 AS PROXIMO_ID FROM PRODUCTOS");
-            return $stmt->fetch(PDO::FETCH_ASSOC)["PROXIMO_ID"];
-        } catch (PDOException $e) {
-            return 1;
-        }
-    }*/
 
-    public static function ObtenerCategorias() {
-        
-    }
+            $enlace = AbrirBD();
 
-    public static function ObtenerEspecies() {
-        
-    }
-    public static function ObtenerProveedores() {
-        
-    }
+            $sentencia = "BEGIN SP_OBTENER_PRODUCTOS_CS(:cursor); END;";
+            $stmt = oci_parse($enlace, $sentencia);
 
-    /* 🔹 Obtener todos los productos "FALTA CORREGIR ESTA PARTE QUITAR EL SELECT DEL CODIGO"
-    public static function ConsultarProductos() {
-        try {
-            $conexion = Conexion::conectar();
-            $stmt = $conexion->query("SELECT * FROM V_STOCK_PRODUCTOS");
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
-        } catch (PDOException $e) {
-            return [];
-        }
-    }*/
+            $cursor = oci_new_cursor($enlace);
 
-    // 🔹 Obtener un producto por ID usando el procedimiento almacenado
-    public static function ObtenerProducto($id_producto) {
-        try {
-            $conexion = Conexion::conectar();
-            $stmt = $conexion->prepare("CALL SP_OBTENER_PRODUCTO(:id, :nombre, :descripcion, :precio, :existencias)");
-            $stmt->bindParam(':id', $id_producto, PDO::PARAM_INT);
-            $stmt->execute();
-            return $stmt->fetch(PDO::FETCH_ASSOC);
-        } catch (PDOException $e) {
+            oci_bind_by_name($stmt, ":cursor", $cursor, -1, OCI_B_CURSOR);
+
+            oci_execute($stmt);
+
+            oci_execute($cursor);
+
+            $productos = [];
+
+            while ($row = oci_fetch_assoc($cursor)) {
+                $productos[] = $row;
+            }
+
+            oci_free_statement($stmt);
+            oci_free_statement($cursor);
+            oci_close($enlace);
+            return $productos;
+
+        } catch (Exception $ex) {
+            error_log("Error en ConsultarProductosModel: " . $ex->getMessage());
             return null;
         }
     }
 
-    // 🔹 Insertar un producto usando el procedimiento almacenado
-    public static function InsertarProducto($id, $nombre, $descripcion, $precio, $existencias, $categoria, $especie, $proveedor) {
+    function ConsultarProductoModel($id_producto) {
         try {
-            $conexion = Conexion::conectar();
-            $stmt = $conexion->prepare("CALL PKG_PRODUCTOS.INSERTAR_PRODUCTO(:id, :nombre, :descripcion, :precio, :existencias, :categoria, :especie, :proveedor)");
-            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
-            $stmt->bindParam(':nombre', $nombre, PDO::PARAM_STR);
-            $stmt->bindParam(':descripcion', $descripcion, PDO::PARAM_STR);
-            $stmt->bindParam(':precio', $precio, PDO::PARAM_STR);
-            $stmt->bindParam(':existencias', $existencias, PDO::PARAM_INT);
-            $stmt->bindParam(':categoria', $categoria, PDO::PARAM_INT);
-            $stmt->bindParam(':especie', $especie, PDO::PARAM_INT);
-            $stmt->bindParam(':proveedor', $proveedor, PDO::PARAM_INT);
-            return $stmt->execute();
-        } catch (PDOException $e) {
+            $enlace = AbrirBD();
+
+            $sentencia = "BEGIN SP_OBTENER_PRODUCTO_CS(:P_ID_PRODUCTO, :P_CURSOR); END;";
+            $stmt = oci_parse($enlace, $sentencia);
+
+            $cursor = oci_new_cursor($enlace);
+
+            oci_bind_by_name($stmt, ':P_ID_PRODUCTO', $id_producto, -1, SQLT_INT);
+            oci_bind_by_name($stmt, ':P_CURSOR', $cursor, -1, OCI_B_CURSOR);
+
+            oci_execute($stmt);
+    
+            oci_execute($cursor);
+    
+            $producto = null;
+            if ($row = oci_fetch_assoc($cursor)) {
+                $producto = [
+                    'ID_PRODUCTO' => $id_producto,
+                    'NOMBRE' => $row['NOMBRE'],
+                    'DESCRIPCION' => $row['DESCRIPCION'],
+                    'PRECIO' => $row['PRECIO'],
+                    'EXISTENCIAS' => $row['EXISTENCIAS'],
+                    'ID_CATEGORIA' => $row['ID_CATEGORIA'],
+                    'NOMBRECATEGORIA' => $row['CATEGORIA'],
+                    'ID_ESPECIE' => $row['ID_ESPECIE'],
+                    'NOMBREESPECIE' => $row['ESPECIE'],
+                    'ID_PROVEEDOR' => $row['ID_PROVEEDOR'],
+                    'NOMBREPROVEEDOR' => $row['PROVEEDOR']
+                ];
+            }
+    
+            oci_free_statement($stmt);
+            oci_free_statement($cursor);
+            oci_close($enlace);
+    
+            return $producto;
+    
+        } catch (Exception $e) {
+            error_log("Error en ConsultarProductoModel: " . $e->getMessage());
+            return null;
+        }
+    }
+      
+    function IngresarProductoModel($NOMBRE, $DESCRIPCION, $PRECIO, $EXISTENCIAS, $CATEGORIA, $ESPECIE, $PROVEEDOR){
+        try {
+            $enlace = AbrirBD();
+    
+            $sql = 'BEGIN SP_INSERTAR_PRODUCTO(:P_NOMBRE, :P_DESCRIPCION,:P_PRECIO, :P_EXISTENCIAS, :P_CATEGORIA, :P_ESPECIE, :P_PROVEEDOR); END;';
+            $stmt = oci_parse($enlace, $sql);
+    
+            oci_bind_by_name($stmt, ':P_NOMBRE', $NOMBRE);
+            oci_bind_by_name($stmt, ':P_DESCRIPCION', $DESCRIPCION);
+            oci_bind_by_name($stmt, ':P_PRECIO', $PRECIO);
+            oci_bind_by_name($stmt, ':P_EXISTENCIAS', $EXISTENCIAS);
+            oci_bind_by_name($stmt, ':P_CATEGORIA', $CATEGORIA);
+            oci_bind_by_name($stmt, ':P_ESPECIE', $ESPECIE);
+            oci_bind_by_name($stmt, ':P_PROVEEDOR', $PROVEEDOR);
+    
+            $ejecutado = oci_execute($stmt);
+    
+            if ($ejecutado) {
+                oci_free_statement($stmt);
+                oci_close($enlace);
+                return true;
+            } else {
+                throw new Exception("Error al ejecutar el procedimiento.");
+            }
+    
+        } catch (Exception $e) {
+            error_log("Error en IngresarProductoModel: " . $e->getMessage());
             return false;
         }
     }
 
-    // 🔹 Actualizar un producto usando el paquete almacenado
-    public static function ActualizarProducto($id, $nombre, $descripcion, $precio, $existencias, $categoria, $especie, $proveedor) {
+    function ActualizarProductoModel($ID_PRODUCTO, $NOMBRE, $DESCRIPCION, $PRECIO, $EXISTENCIAS, $CATEGORIA, $ESPECIE, $PROVEEDOR) {
         try {
-            $conexion = Conexion::conectar();
-            $stmt = $conexion->prepare("CALL PKG_PRODUCTOS.ACTUALIZAR_PRODUCTO(:id, :nombre, :descripcion, :precio, :existencias, :categoria, :especie, :proveedor)");
-            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
-            $stmt->bindParam(':nombre', $nombre, PDO::PARAM_STR);
-            $stmt->bindParam(':descripcion', $descripcion, PDO::PARAM_STR);
-            $stmt->bindParam(':precio', $precio, PDO::PARAM_STR);
-            $stmt->bindParam(':existencias', $existencias, PDO::PARAM_INT);
-            $stmt->bindParam(':categoria', $categoria, PDO::PARAM_INT);
-            $stmt->bindParam(':especie', $especie, PDO::PARAM_INT);
-            $stmt->bindParam(':proveedor', $proveedor, PDO::PARAM_INT);
-            return $stmt->execute();
-        } catch (PDOException $e) {
+            $enlace = AbrirBD();
+    
+            $sql = 'BEGIN SP_ACTUALIZAR_Producto(:P_ID_PRODUCTO, :P_NOMBRE, :P_DESCRIPCION, :P_PRECIO, :P_EXISTENCIAS, :P_CATEGORIA, :P_ESPECIE, :P_PROVEEDOR); END;';
+            $stmt = oci_parse($enlace, $sql);
+    
+            oci_bind_by_name($stmt, ':P_ID_PRODUCTO', $ID_PRODUCTO);
+            oci_bind_by_name($stmt, ':P_NOMBRE', $NOMBRE);
+            oci_bind_by_name($stmt, ':P_DESCRIPCION', $DESCRIPCION);
+            oci_bind_by_name($stmt, ':P_PRECIO', $PRECIO);
+            oci_bind_by_name($stmt, ':P_EXISTENCIAS', $EXISTENCIAS);
+            oci_bind_by_name($stmt, ':P_CATEGORIA', $CATEGORIA);
+            oci_bind_by_name($stmt, ':P_ESPECIE', $ESPECIE);
+            oci_bind_by_name($stmt, ':P_PROVEEDOR', $PROVEEDOR);
+    
+            $ejecutado = oci_execute($stmt);
+    
+            if ($ejecutado) {
+                oci_free_statement($stmt);
+                oci_close($enlace);
+                return true;
+            } else {
+                throw new Exception("Error al ejecutar el procedimiento.");
+            }
+    
+        } catch (Exception $e) {
+            error_log("Error en ActualizarProductoModel: " . $e->getMessage());
+            return false;
+        }
+    }  
+
+    function EliminarProductoModel($id_Producto) {
+        try {
+            $enlace = AbrirBD();
+            $sql = "BEGIN SP_ELIMINAR_Producto(:V_ID_Producto); END;";
+            $stmt = oci_parse($enlace, $sql);
+
+            oci_bind_by_name($stmt, ':V_ID_Producto', $id_Producto, -1, SQLT_INT);
+
+            $resultado = oci_execute($stmt);
+
+            if ($resultado) {
+                return true;
+            } else {
+                return false;
+            }
+
+            oci_free_statement($stmt);
+            oci_close($enlace);
+        } catch (Exception $e) {
+            error_log("Error al eliminar Producto: " . $e->getMessage());
             return false;
         }
     }
 
-    // 🔹 Eliminar un producto usando el paquete almacenado
-    public static function EliminarProducto($id_producto) {
+    function ConsultarCategoriasModel() {
         try {
-            $conexion = Conexion::conectar();
-            $stmt = $conexion->prepare("CALL PKG_PRODUCTOS.ELIMINAR_PRODUCTO(:id)");
-            $stmt->bindParam(':id', $id_producto, PDO::PARAM_INT);
-            return $stmt->execute();
-        } catch (PDOException $e) {
+            $enlace = AbrirBD();
+            $sql = "BEGIN SP_OBTENER_CATEGORIAS_CS(:P_CURSOR); END;";
+ 
+            $stmt = oci_parse($enlace, $sql);
+            $cursor = oci_new_cursor($enlace);
+            oci_bind_by_name($stmt, ":P_CURSOR", $cursor, -1, OCI_B_CURSOR);
+ 
+            oci_execute($stmt);
+ 
+            oci_execute($cursor);
+ 
+            $categorias = [];
+            while ($row = oci_fetch_assoc($cursor)) {
+                $categorias[] = $row;
+            }
+ 
+            oci_free_statement($stmt);
+            oci_free_cursor($cursor);
+            oci_close($enlace);
+ 
+            return $categorias;
+        } catch (Exception $e) {
+            error_log("Error al obtener categorias: " . $e->getMessage());
             return false;
         }
     }
-}
+ 
+    function ConsultarEspeciesModel() {
+        try {
+            $enlace = AbrirBD();
+            $sql = "BEGIN SP_OBTENER_ESPECIES_CS(:P_CURSOR); END;";
+ 
+            $stmt = oci_parse($enlace, $sql);
+            $cursor = oci_new_cursor($enlace);
+            oci_bind_by_name($stmt, ":P_CURSOR", $cursor, -1, OCI_B_CURSOR);
+ 
+            oci_execute($stmt);
+ 
+            oci_execute($cursor);
+ 
+            $especies = [];
+            while ($row = oci_fetch_assoc($cursor)) {
+                $especies[] = $row;
+            }
+ 
+            oci_free_statement($stmt);
+            oci_free_cursor($cursor);
+            oci_close($enlace);
+ 
+            return $especies;
+        } catch (Exception $e) {
+            error_log("Error al obtener especies: " . $e->getMessage());
+            return false;
+        }
+    }
+ 
+    function ConsultarProveedoresModel() {
+        try {
+            $enlace = AbrirBD();
+            $sql = "BEGIN SP_OBTENER_PROVEEDORES_CS(:P_CURSOR); END;";
+ 
+            $stmt = oci_parse($enlace, $sql);
+            $cursor = oci_new_cursor($enlace);
+            oci_bind_by_name($stmt, ":P_CURSOR", $cursor, -1, OCI_B_CURSOR);
+ 
+            oci_execute($stmt);
+ 
+            oci_execute($cursor);
+ 
+            $proveedores = [];
+            while ($row = oci_fetch_assoc($cursor)) {
+                $proveedores[] = $row;
+            }
+ 
+            oci_free_statement($stmt);
+            oci_free_cursor($cursor);
+            oci_close($enlace);
+ 
+            return $proveedores;
+        } catch (Exception $e) {
+            error_log("Error al obtener proveedores: " . $e->getMessage());
+            return false;
+        }
+    }
+
 ?>

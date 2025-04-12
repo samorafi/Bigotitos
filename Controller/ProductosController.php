@@ -1,54 +1,102 @@
 <?php
 include_once $_SERVER["DOCUMENT_ROOT"] . "/Bigotitos/Model/ProductosModel.php";
 
+    function ConsultarProductos() {
+        $resultado = ConsultarProductosModel();
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    
-    /* 📌 Insertar Producto
-    if (isset($_POST["btnAgregarProducto"])) {
-        $id = ProductosModel::ObtenerProximoID();
-        $nombre = $_POST["txtNombre"];
-        $descripcion = $_POST["txtDescripcion"];
-        $precio = number_format($_POST["txtPrecio"], 2, '.', '');
-        $existencias = $_POST["txtExistencias"];
-        $categoria = $_POST["txtIDCategoria"];
-        $especie = $_POST["txtIDEspecie"];
-        $proveedor = $_POST["txtIDProveedor"];
-
-        if (ProductosModel::InsertarProducto($id, $nombre, $descripcion, $precio, $existencias, $categoria, $especie, $proveedor)) {
-            header('location: ../View/productos.php');
-        } else {
-            echo "❌ Error al insertar producto.";
+        if ($resultado !== null && !empty($resultado)) {
+            return $resultado;
         }
-    }*/
+        return [];
+    }
 
-    // 📌 Actualizar Producto
+    function ConsultarProducto($id_producto) {
+        $resultado = ConsultarProductoModel($id_producto);
+
+        if ($resultado !== null && !empty($resultado)) {
+            return $resultado;
+        }
+    }
+
     if (isset($_POST["btnActualizarProducto"])) {
-        $id = $_POST["txtIDProducto"];
-        $nombre = $_POST["txtNombre"];
-        $descripcion = $_POST["txtDescripcion"];
-        $precio = number_format($_POST["txtPrecio"], 2, '.', '');
-        $existencias = $_POST["txtExistencias"];
-        $categoria = $_POST["txtIDCategoria"];
-        $especie = $_POST["txtIDEspecie"];
-        $proveedor = $_POST["txtIDProveedor"];
-
-        if (ProductosModel::ActualizarProducto($id, $nombre, $descripcion, $precio, $existencias, $categoria, $especie, $proveedor)) {
-            header('location: ../View/productos.php');
+        $ID_PRODUCTO = $_POST['txtIdProducto'];
+        $NOMBRE= $_POST['txtNombre'];
+        $DESCRIPCION = $_POST['txtDescripcion'];
+        $PRECIO = $_POST['txtPrecio'];
+        $EXISTENCIAS = $_POST['txtExistencias'];
+        $CATEGORIA= $_POST['txtCategoria'];
+        $ESPECIE= $_POST['txtEspecie'];
+        $PROVEEDOR = $_POST['txtProveedor'];
+       
+        $resultado = ActualizarProductoModel($ID_PRODUCTO, $NOMBRE, $DESCRIPCION, $PRECIO, $EXISTENCIAS, $CATEGORIA, $ESPECIE, $PROVEEDOR);
+    
+        if ($resultado == true) {
+            header('location: ../Productos/Productos.php');
+            exit();
         } else {
-            echo "❌ Error al actualizar producto.";
+            $_SESSION["mensaje"] = "No fue posible actualizar el producto.";
         }
     }
 
-    // 📌 Eliminar Producto
-    if (isset($_POST["btnEliminarProducto"])) {
-        $id = $_POST["txtIDProducto"];
-
-        if (ProductosModel::EliminarProducto($id)) {
-            header('location: ../View/productos.php');
+    if (isset($_POST["btnIngresarProducto"])) {
+        $NOMBRE= $_POST['txtNombre'];
+        $DESCRIPCION = $_POST['txtDescripcion'];
+        $PRECIO = $_POST['txtPrecio'];
+        $EXISTENCIAS = $_POST['txtExistencias'];
+        $CATEGORIA= $_POST['txtCategoria'];
+        $ESPECIE= $_POST['txtEspecie'];
+        $PROVEEDOR = $_POST['txtProveedor'];
+       
+        $resultado = IngresarProductoModel($NOMBRE, $DESCRIPCION, $PRECIO, $EXISTENCIAS, $CATEGORIA, $ESPECIE, $PROVEEDOR);
+    
+        if ($resultado == true) {
+            header('location: ../Productos/Productos.php');
+            exit();
         } else {
-            echo "❌ Error al eliminar producto.";
+            $_SESSION["mensaje"] = "No fue posible actualizar el producto.";
         }
     }
-}
+
+    if (isset($_POST['btnEliminarProducto'])) {
+        $id_producto = $_POST['txtIdProducto'];
+        
+        $resultado = EliminarProductoModel($id_producto);
+
+        if ($resultado == true) {
+            $_SESSION['mensaje'] = "Producto eliminado correctamente.";
+            header('location: ../Productos/Productos.php');
+            exit();
+        } else {
+            $_SESSION['mensaje'] = "No fue posible eliminar el producto.";
+        }
+    }
+
+    function ConsultarCategorias() {
+        $resultado = ConsultarCategoriasModel();
+ 
+        if ($resultado !== null && !empty($resultado)) {
+            return $resultado;
+        }
+        return [];
+    }
+ 
+    function ConsultarEspecies() {
+        $resultado = ConsultarEspeciesModel();
+ 
+        if ($resultado !== null && !empty($resultado)) {
+            return $resultado;
+        }
+        return [];
+    }
+ 
+    function ConsultarProveedores() {
+        $resultado = ConsultarProveedoresModel();
+ 
+        if ($resultado !== null && !empty($resultado)) {
+            return $resultado;
+        }
+        return [];
+    }
+ 
+
 ?>
