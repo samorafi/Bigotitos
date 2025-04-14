@@ -43,7 +43,7 @@ include_once $_SERVER["DOCUMENT_ROOT"] . "/Bigotitos/Conexion.php";
 
             $cursor = oci_new_cursor($enlace);
 
-            oci_bind_by_name($stmt, ':P_ID_VENTA', $id_VENTA, -1, SQLT_INT);
+            oci_bind_by_name($stmt, ':P_ID_VENTA', $id_venta, -1, SQLT_INT);
             oci_bind_by_name($stmt, ':P_CURSOR', $cursor, -1, OCI_B_CURSOR);
 
             oci_execute($stmt);
@@ -53,7 +53,7 @@ include_once $_SERVER["DOCUMENT_ROOT"] . "/Bigotitos/Conexion.php";
             $VENTA = null;
             if ($row = oci_fetch_assoc($cursor)) {
                 $VENTA = [
-                    'ID_VENTA' => $id_VENTA,
+                    'ID_VENTA' => $id_venta,
                     'ID_CLIENTE' => $row['ID_CLIENTE'],
                     'NOMBRECLIENTE' => $row['CLIENTE'],
                     'FECHA_VENTA' => $row['FECHA_VENTA'],
@@ -70,7 +70,7 @@ include_once $_SERVER["DOCUMENT_ROOT"] . "/Bigotitos/Conexion.php";
             return $VENTA;
     
         } catch (Exception $e) {
-            error_log("Error en ConsultarVENTAModel: " . $e->getMessage());
+            error_log("Error en ConsultarVentaModel: " . $e->getMessage());
             return null;
         }
     }

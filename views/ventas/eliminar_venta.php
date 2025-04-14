@@ -2,6 +2,9 @@
 include_once $_SERVER["DOCUMENT_ROOT"] . '/Bigotitos/Controller/VentasController.php';
 $id_Venta =  $_GET["id"];
 $datos = ConsultarVenta($id_Venta);
+if (!$datos) {
+    echo "<div class='alert alert-danger'>No se encontró información de la venta con ID: $id_Venta</div>";
+}
 ?>
 
 <!DOCTYPE html>
