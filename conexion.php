@@ -2,7 +2,7 @@
 function AbrirBD() {
     $usuario = "tienda_mascotas1";
     $password = "tienda1234";
-    $host = "localhost/ORCL";
+    $host = "localhost/XE";
 
     $conexion = oci_connect($usuario, $password, $host, 'AL32UTF8');
 
