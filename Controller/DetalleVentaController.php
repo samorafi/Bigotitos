@@ -25,7 +25,7 @@ include_once $_SERVER["DOCUMENT_ROOT"] . "/Bigotitos/Model/DetalleVentaModel.php
         $CANTIDAD = $_POST['txtCantidad'];
         $SUBTOTAL = $_POST['txtSubtotal'];
        
-        $resultado = ActualizarVentaModel($id_Detalle, $ID_VENTA, $ID_PRODUCTO, $CANTIDAD,$SUBTOTAL);
+        $resultado = ActualizarDetalleVentaModel($id_Detalle, $ID_VENTA, $ID_PRODUCTO, $CANTIDAD,$SUBTOTAL);
     
         if ($resultado == true) {
             header('location: ../detalle_venta/detalle_ventas.php');
@@ -54,7 +54,7 @@ include_once $_SERVER["DOCUMENT_ROOT"] . "/Bigotitos/Model/DetalleVentaModel.php
     if (isset($_POST['btnEliminarDetalleVenta'])) {
         $id_Detalle = $_POST['txtIdDetalle'];
         
-        $resultado = EliminarVentaModel($id_Detalle);
+        $resultado = EliminarDetalleVentaModel($id_Detalle);
 
         if ($resultado == true) {
             $_SESSION['mensaje'] = "Venta eliminado correctamente.";
@@ -75,7 +75,7 @@ include_once $_SERVER["DOCUMENT_ROOT"] . "/Bigotitos/Model/DetalleVentaModel.php
     }
 
     function ConsultarProductos() {
-        $resultado = ConsultarProductosModel();
+        $resultado = ConsultarDetalleProductosModel();
  
         if ($resultado !== null && !empty($resultado)) {
             return $resultado;
@@ -84,7 +84,7 @@ include_once $_SERVER["DOCUMENT_ROOT"] . "/Bigotitos/Model/DetalleVentaModel.php
     }
 
     function ConsultarVentas() {
-        $resultado = ConsultarVentasModel();
+        $resultado = ConsultarDetalleVentasModel();
  
         if ($resultado !== null && !empty($resultado)) {
             return $resultado;

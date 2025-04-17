@@ -20,7 +20,7 @@ $datos = ConsultarClientes();
     <div class="table-responsive">
         <div class="mb-4 text-left">
             <a href="insertar_Cliente.php" class="btn btn-success me-2">➕ Insertar</a>
-            <a href="../../index.php" class="btn btn-secondary me-2">Regresar</a>
+            <a href="../adminHome.php" class="btn btn-secondary me-2">Regresar</a>
 
         </div>
         <?php

@@ -103,6 +103,43 @@ include_once $_SERVER["DOCUMENT_ROOT"] . "/Bigotitos/Conexion.php";
             return false;
         }
     }
+
+    function IngresarVentaModelCart($ID_CLIENTE, $FECHA_VENTA, $TOTAL) {
+        try {
+            $enlace = AbrirBD();
+    
+            $sql = "
+                BEGIN
+                    PKG_VENTA.SP_INSERTAR_VENTA(
+                        :P_ID_CLIENTE,
+                        TO_DATE(:P_FECHA_VENTA, 'YYYY-MM-DD'),
+                        :P_TOTAL
+                    );
+                END;
+            ";
+            $stmt = oci_parse($enlace, $sql);
+    
+            oci_bind_by_name($stmt, ':P_ID_CLIENTE',   $ID_CLIENTE);
+            oci_bind_by_name($stmt, ':P_FECHA_VENTA',  $FECHA_VENTA);
+            oci_bind_by_name($stmt, ':P_TOTAL',        $TOTAL);
+    
+            if (!oci_execute($stmt, OCI_COMMIT_ON_SUCCESS)) {
+                $e = oci_error($stmt);
+                error_log("Error en IngresarVentaModel: " . $e['message']);
+                oci_free_statement($stmt);
+                oci_close($enlace);
+                return false;
+            }
+    
+            oci_free_statement($stmt);
+            oci_close($enlace);
+            return true;
+    
+        } catch (Exception $e) {
+            error_log("Exception en IngresarVentaModel: " . $e->getMessage());
+            return false;
+        }
+    }
     
 
     function ActualizarVentaModel($ID_VENTA, $ID_CLIENTE, $FECHA_VENTA, $TOTAL) {

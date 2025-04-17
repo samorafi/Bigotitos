@@ -77,7 +77,7 @@ include_once $_SERVER["DOCUMENT_ROOT"] . "/Bigotitos/Conexion.php";
         }
     }
       
-    function IngresarVentaModel($ID_VENTA, $ID_PRODUCTO, $CANTIDAD, $SUBTOTAL){
+    function IngresarDetalleVentaModel($ID_VENTA, $ID_PRODUCTO, $CANTIDAD, $SUBTOTAL){
         try {
             $enlace = AbrirBD();
     
@@ -106,7 +106,7 @@ include_once $_SERVER["DOCUMENT_ROOT"] . "/Bigotitos/Conexion.php";
     }
     
 
-    function ActualizarVentaModel($ID_DETALLE, $ID_VENTA, $ID_PRODUCTO, $CANTIDAD, $SUBTOTAL) {
+    function ActualizarDetalleVentaModel($ID_DETALLE, $ID_VENTA, $ID_PRODUCTO, $CANTIDAD, $SUBTOTAL) {
         try {
             $enlace = AbrirBD();
     
@@ -135,7 +135,7 @@ include_once $_SERVER["DOCUMENT_ROOT"] . "/Bigotitos/Conexion.php";
         }
     }  
 
-    function EliminarVENTAModel($id_venta) {
+    function EliminarDetalleVENTAModel($id_venta) {
         try {
             $enlace = AbrirBD();
             $sql = "BEGIN PKG_DETALLE_VENTA.SP_ELIMINAR_DETALLE_VENTA(:P_ID_DETALLE); END;";
@@ -192,7 +192,7 @@ include_once $_SERVER["DOCUMENT_ROOT"] . "/Bigotitos/Conexion.php";
         }
     }
 
-    function ConsultarProductosModel() {
+    function ConsultarDetalleProductosModel() {
         try {
 
             $enlace = AbrirBD();
@@ -225,36 +225,4 @@ include_once $_SERVER["DOCUMENT_ROOT"] . "/Bigotitos/Conexion.php";
         }
     }
 
-    function ConsultarVentasModel() {
-        try {
-
-            $enlace = AbrirBD();
-
-            $sentencia = "BEGIN PKG_VENTA.SP_OBTENER_VENTAS_CS(:cursor); END;";
-            $stmt = oci_parse($enlace, $sentencia);
-
-            $cursor = oci_new_cursor($enlace);
-
-            oci_bind_by_name($stmt, ":cursor", $cursor, -1, OCI_B_CURSOR);
-
-            oci_execute($stmt);
-
-            oci_execute($cursor);
-
-            $ventas = [];
-
-            while ($row = oci_fetch_assoc($cursor)) {
-                $ventas[] = $row;
-            }
-
-            oci_free_statement($stmt);
-            oci_free_statement($cursor);
-            oci_close($enlace);
-            return $ventas;
-
-        } catch (Exception $ex) {
-            error_log("Error en ConsultarVentasModel: " . $ex->getMessage());
-            return null;
-        }
-    }
 ?>
