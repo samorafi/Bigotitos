@@ -6,7 +6,7 @@ include_once $_SERVER["DOCUMENT_ROOT"] . "/Bigotitos/Conexion.php";
 
             $enlace = AbrirBD();
 
-            $sentencia = "BEGIN SP_OBTENER_VENTAS_CS(:cursor); END;";
+            $sentencia = "BEGIN PKG_VENTA.SP_OBTENER_VENTAS_CS(:cursor); END;";
             $stmt = oci_parse($enlace, $sentencia);
 
             $cursor = oci_new_cursor($enlace);
@@ -38,7 +38,7 @@ include_once $_SERVER["DOCUMENT_ROOT"] . "/Bigotitos/Conexion.php";
         try {
             $enlace = AbrirBD();
 
-            $sentencia = "BEGIN SP_OBTENER_VENTA_CS(:P_ID_VENTA, :P_CURSOR); END;";
+            $sentencia = "BEGIN PKG_VENTA.SP_OBTENER_VENTA_CS(:P_ID_VENTA, :P_CURSOR); END;";
             $stmt = oci_parse($enlace, $sentencia);
 
             $cursor = oci_new_cursor($enlace);
@@ -81,7 +81,7 @@ include_once $_SERVER["DOCUMENT_ROOT"] . "/Bigotitos/Conexion.php";
     
             $FECHA_VENTA = date('Y-m-d', strtotime($FECHA_VENTA));
     
-            $sql = 'BEGIN SP_INSERTAR_VENTA(:P_ID_CLIENTE, :P_FECHA_VENTA,:P_TOTAL); END;';
+            $sql = 'BEGIN PKG_VENTA.SP_INSERTAR_VENTA(:P_ID_CLIENTE, :P_FECHA_VENTA,:P_TOTAL); END;';
             $stmt = oci_parse($enlace, $sql);
     
             oci_bind_by_name($stmt, ':P_ID_CLIENTE', $ID_CLIENTE);
@@ -109,7 +109,7 @@ include_once $_SERVER["DOCUMENT_ROOT"] . "/Bigotitos/Conexion.php";
         try {
             $enlace = AbrirBD();
     
-            $sql = 'BEGIN SP_ACTUALIZAR_VENTA(:P_ID_VENTA, :P_ID_CLIENTE, :P_FECHA_VENTA, :P_TOTAL); END;';
+            $sql = 'BEGIN PKG_VENTA.SP_ACTUALIZAR_VENTA(:P_ID_VENTA, :P_ID_CLIENTE, :P_FECHA_VENTA, :P_TOTAL); END;';
             $stmt = oci_parse($enlace, $sql);
             
             oci_bind_by_name($stmt, ':P_ID_VENTA', $ID_VENTA);
@@ -136,7 +136,7 @@ include_once $_SERVER["DOCUMENT_ROOT"] . "/Bigotitos/Conexion.php";
     function EliminarVENTAModel($id_venta) {
         try {
             $enlace = AbrirBD();
-            $sql = "BEGIN SP_ELIMINAR_VENTA(:V_ID_VENTA); END;";
+            $sql = "BEGIN PKG_VENTA.SP_ELIMINAR_VENTA(:V_ID_VENTA); END;";
             $stmt = oci_parse($enlace, $sql);
 
             oci_bind_by_name($stmt, ':V_ID_VENTA', $id_venta, -1, SQLT_INT);
@@ -160,7 +160,7 @@ include_once $_SERVER["DOCUMENT_ROOT"] . "/Bigotitos/Conexion.php";
     function ConsultarClientesModel() {
         try {
             $enlace = AbrirBD();
-            $sql = "BEGIN SP_OBTENER_CLIENTES_CS(:P_CURSOR); END;";
+            $sql = "BEGIN PKG_VENTA.SP_OBTENER_CLIENTES_CS(:P_CURSOR); END;";
  
             $stmt = oci_parse($enlace, $sql);
             $cursor = oci_new_cursor($enlace);
@@ -170,16 +170,16 @@ include_once $_SERVER["DOCUMENT_ROOT"] . "/Bigotitos/Conexion.php";
  
             oci_execute($cursor);
  
-            $especies = [];
+            $clientes = [];
             while ($row = oci_fetch_assoc($cursor)) {
-                $especies[] = $row;
+                $clientes[] = $row;
             }
  
             oci_free_statement($stmt);
             oci_free_cursor($cursor);
             oci_close($enlace);
  
-            return $especies;
+            return $clientes;
         } catch (Exception $e) {
             error_log("Error al obtener clientes: " . $e->getMessage());
             return false;

@@ -6,7 +6,7 @@ include_once $_SERVER["DOCUMENT_ROOT"] . "/Bigotitos/Conexion.php";
 
             $enlace = AbrirBD();
 
-            $sentencia = "BEGIN SP_OBTENER_PRODUCTOS_CS(:cursor); END;";
+            $sentencia = "BEGIN PKG_PRODUCTOS.SP_OBTENER_PRODUCTOS_CS(:cursor); END;";
             $stmt = oci_parse($enlace, $sentencia);
 
             $cursor = oci_new_cursor($enlace);
@@ -38,7 +38,7 @@ include_once $_SERVER["DOCUMENT_ROOT"] . "/Bigotitos/Conexion.php";
         try {
             $enlace = AbrirBD();
 
-            $sentencia = "BEGIN SP_OBTENER_PRODUCTO_CS(:P_ID_PRODUCTO, :P_CURSOR); END;";
+            $sentencia = "BEGIN PKG_PRODUCTOS.SP_OBTENER_PRODUCTO_CS(:P_ID_PRODUCTO, :P_CURSOR); END;";
             $stmt = oci_parse($enlace, $sentencia);
 
             $cursor = oci_new_cursor($enlace);
@@ -83,7 +83,7 @@ include_once $_SERVER["DOCUMENT_ROOT"] . "/Bigotitos/Conexion.php";
         try {
             $enlace = AbrirBD();
     
-            $sql = 'BEGIN SP_INSERTAR_PRODUCTO(:P_NOMBRE, :P_DESCRIPCION,:P_PRECIO, :P_EXISTENCIAS, :P_CATEGORIA, :P_ESPECIE, :P_PROVEEDOR); END;';
+            $sql = 'BEGIN PKG_PRODUCTOS.SP_INSERTAR_PRODUCTO(:P_NOMBRE, :P_DESCRIPCION,:P_PRECIO, :P_EXISTENCIAS, :P_CATEGORIA, :P_ESPECIE, :P_PROVEEDOR); END;';
             $stmt = oci_parse($enlace, $sql);
     
             oci_bind_by_name($stmt, ':P_NOMBRE', $NOMBRE);
@@ -114,7 +114,7 @@ include_once $_SERVER["DOCUMENT_ROOT"] . "/Bigotitos/Conexion.php";
         try {
             $enlace = AbrirBD();
     
-            $sql = 'BEGIN SP_ACTUALIZAR_Producto(:P_ID_PRODUCTO, :P_NOMBRE, :P_DESCRIPCION, :P_PRECIO, :P_EXISTENCIAS, :P_CATEGORIA, :P_ESPECIE, :P_PROVEEDOR); END;';
+            $sql = 'BEGIN PKG_PRODUCTOS.SP_ACTUALIZAR_Producto(:P_ID_PRODUCTO, :P_NOMBRE, :P_DESCRIPCION, :P_PRECIO, :P_EXISTENCIAS, :P_CATEGORIA, :P_ESPECIE, :P_PROVEEDOR); END;';
             $stmt = oci_parse($enlace, $sql);
     
             oci_bind_by_name($stmt, ':P_ID_PRODUCTO', $ID_PRODUCTO);
@@ -145,7 +145,7 @@ include_once $_SERVER["DOCUMENT_ROOT"] . "/Bigotitos/Conexion.php";
     function EliminarProductoModel($id_Producto) {
         try {
             $enlace = AbrirBD();
-            $sql = "BEGIN SP_ELIMINAR_Producto(:V_ID_Producto); END;";
+            $sql = "BEGIN PKG_PRODUCTOS.SP_ELIMINAR_Producto(:V_ID_Producto); END;";
             $stmt = oci_parse($enlace, $sql);
 
             oci_bind_by_name($stmt, ':V_ID_Producto', $id_Producto, -1, SQLT_INT);
@@ -169,7 +169,7 @@ include_once $_SERVER["DOCUMENT_ROOT"] . "/Bigotitos/Conexion.php";
     function ConsultarCategoriasModel() {
         try {
             $enlace = AbrirBD();
-            $sql = "BEGIN SP_OBTENER_CATEGORIAS_CS(:P_CURSOR); END;";
+            $sql = "BEGIN PKG_CATEGORIAS.SP_OBTENER_CATEGORIAS_CS(:P_CURSOR); END;";
  
             $stmt = oci_parse($enlace, $sql);
             $cursor = oci_new_cursor($enlace);
@@ -198,7 +198,7 @@ include_once $_SERVER["DOCUMENT_ROOT"] . "/Bigotitos/Conexion.php";
     function ConsultarEspeciesModel() {
         try {
             $enlace = AbrirBD();
-            $sql = "BEGIN SP_OBTENER_ESPECIES_CS(:P_CURSOR); END;";
+            $sql = "BEGIN PKG_ESPECIE.SP_OBTENER_ESPECIES_CS(:P_CURSOR); END;";
  
             $stmt = oci_parse($enlace, $sql);
             $cursor = oci_new_cursor($enlace);
@@ -227,7 +227,7 @@ include_once $_SERVER["DOCUMENT_ROOT"] . "/Bigotitos/Conexion.php";
     function ConsultarProveedoresModel() {
         try {
             $enlace = AbrirBD();
-            $sql = "BEGIN SP_OBTENER_PROVEEDORES_CS(:P_CURSOR); END;";
+            $sql = "BEGIN PKG_PROVEEDORES.SP_OBTENER_PROVEEDORES_CS(:P_CURSOR); END;";
  
             $stmt = oci_parse($enlace, $sql);
             $cursor = oci_new_cursor($enlace);
