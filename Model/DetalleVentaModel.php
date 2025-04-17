@@ -6,7 +6,7 @@ include_once $_SERVER["DOCUMENT_ROOT"] . "/Bigotitos/Conexion.php";
 
             $enlace = AbrirBD();
 
-            $sentencia = "BEGIN SP_OBTENER_DETALLE_VENTAS_CS(:cursor); END;";
+            $sentencia = "BEGIN PKG_DETALLE_VENTA.SP_OBTENER_DETALLE_VENTAS_CS(:cursor); END;";
             $stmt = oci_parse($enlace, $sentencia);
 
             $cursor = oci_new_cursor($enlace);
@@ -38,7 +38,7 @@ include_once $_SERVER["DOCUMENT_ROOT"] . "/Bigotitos/Conexion.php";
         try {
             $enlace = AbrirBD();
 
-            $sentencia = "BEGIN SP_OBTENER_DETALLE_VENTA_CS(:P_ID_DETALLE, :P_CURSOR); END;";
+            $sentencia = "BEGIN PKG_DETALLE_VENTA.SP_OBTENER_DETALLE_VENTA_CS(:P_ID_DETALLE, :P_CURSOR); END;";
             $stmt = oci_parse($enlace, $sentencia);
 
             $cursor = oci_new_cursor($enlace);
@@ -81,7 +81,7 @@ include_once $_SERVER["DOCUMENT_ROOT"] . "/Bigotitos/Conexion.php";
         try {
             $enlace = AbrirBD();
     
-            $sql = 'BEGIN SP_INSERTAR_DETALLE_VENTA(:P_ID_VENTA, :P_ID_PRODUCTO,:P_CANTIDAD,:P_SUBTOTAL); END;';
+            $sql = 'BEGIN PKG_DETALLE_VENTA.SP_INSERTAR_DETALLE_VENTA(:P_ID_VENTA, :P_ID_PRODUCTO,:P_CANTIDAD,:P_SUBTOTAL); END;';
             $stmt = oci_parse($enlace, $sql);
     
             oci_bind_by_name($stmt, ':P_ID_VENTA', $ID_VENTA);
@@ -110,7 +110,7 @@ include_once $_SERVER["DOCUMENT_ROOT"] . "/Bigotitos/Conexion.php";
         try {
             $enlace = AbrirBD();
     
-            $sql = 'BEGIN SP_ACTUALIZAR_DETALLE_VENTA(:P_ID_DETALLE, :P_ID_VENTA, :P_ID_PRODUCTO,:P_CANTIDAD,:P_SUBTOTAL); END;';
+            $sql = 'BEGIN PKG_DETALLE_VENTA.SP_ACTUALIZAR_DETALLE_VENTA(:P_ID_DETALLE, :P_ID_VENTA, :P_ID_PRODUCTO,:P_CANTIDAD,:P_SUBTOTAL); END;';
             $stmt = oci_parse($enlace, $sql);
             
             oci_bind_by_name($stmt, ':P_ID_DETALLE', $ID_VENTA);
@@ -138,7 +138,7 @@ include_once $_SERVER["DOCUMENT_ROOT"] . "/Bigotitos/Conexion.php";
     function EliminarVENTAModel($id_venta) {
         try {
             $enlace = AbrirBD();
-            $sql = "BEGIN SP_ELIMINAR_DETALLE_VENTA(:P_ID_DETALLE); END;";
+            $sql = "BEGIN PKG_DETALLE_VENTA.SP_ELIMINAR_DETALLE_VENTA(:P_ID_DETALLE); END;";
             $stmt = oci_parse($enlace, $sql);
 
             oci_bind_by_name($stmt, ':P_ID_DETALLE', $id_venta, -1, SQLT_INT);
@@ -197,7 +197,7 @@ include_once $_SERVER["DOCUMENT_ROOT"] . "/Bigotitos/Conexion.php";
 
             $enlace = AbrirBD();
 
-            $sentencia = "BEGIN SP_OBTENER_PRODUCTOS_CS(:cursor); END;";
+            $sentencia = "BEGIN PKG_PRODUCTOS.SP_OBTENER_PRODUCTOS_CS(:cursor); END;";
             $stmt = oci_parse($enlace, $sentencia);
 
             $cursor = oci_new_cursor($enlace);
@@ -230,7 +230,7 @@ include_once $_SERVER["DOCUMENT_ROOT"] . "/Bigotitos/Conexion.php";
 
             $enlace = AbrirBD();
 
-            $sentencia = "BEGIN SP_OBTENER_VENTAS_CS(:cursor); END;";
+            $sentencia = "BEGIN PKG_VENTA.SP_OBTENER_VENTAS_CS(:cursor); END;";
             $stmt = oci_parse($enlace, $sentencia);
 
             $cursor = oci_new_cursor($enlace);
