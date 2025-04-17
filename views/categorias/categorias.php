@@ -1,98 +1,71 @@
+<?php
+include_once $_SERVER["DOCUMENT_ROOT"] . '/Bigotitos/Controller/CategoriasController.php';
+
+$datos = ConsultarCategorias();
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🏷️ Gestión de Categorías - Bigotitos</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="../assets/css/styles.css">
-    <style>
-        .card {
-            min-height: 300px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-        .card-body {
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-    </style>
+    <title>Gestión de Categorías</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="../../assets/css/styles.css">
 </head>
 <body>
 
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="../../index.php">🐾 Bigotitos</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="../../index.php">🏠 Inicio</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" href="categorias.php">🏷️ Categorías</a>
-                    </li>
-                </ul>
-            </div>
+<div class="container mt-5">
+    <h1 class="text-center mb-4">📂 Gestión de Categorías</h1>
+
+    <div class="table-responsive">
+        <div class="mb-4 text-left">
+            <a href="insertar_Categoria.php" class="btn btn-success me-2">➕ Insertar</a>
+            <a href="../../index.php" class="btn btn-secondary me-2">Regresar</a>
         </div>
-    </nav>
 
-    <div class="container my-5">
-        <h1 class="text-center mb-4">🏷️ Gestión de Categorías</h1>
+        <?php
+        if (!empty($datos)) {
+            echo '<table id="example" class="table table-striped">';
+            echo '<thead>';
+            echo '<tr>';
+            echo '<th>ID</th>';
+            echo '<th>Nombre</th>';
+            echo '<th>Estado</th>';
+            echo '<th>Acciones</th>';
+            echo '</tr>';
+            echo '</thead>';
+            echo '<tbody>';
 
-        <div class="row justify-content-center">
-            <div class="col-md-3 mb-4">
-                <div class="card shadow text-center">
-                    <div class="card-body">
-                        <i class="bi bi-plus-circle display-4 text-success"></i>
-                        <h5 class="card-title mt-3">Insertar Categoría</h5>
-                        <p class="card-text">Agrega nuevas categorías.</p>
-                        <a href="insertar_categoria.php" class="btn btn-success">➕ Insertar</a>
-                    </div>
-                </div>
-            </div>
+            foreach ($datos as $dato) {
+                echo '<tr>';
+                echo '<td>' . htmlspecialchars($dato['ID_CATEGORIA']) . '</td>';
+                echo '<td>' . htmlspecialchars($dato['NOMBRE']) . '</td>';
+                echo '<td>' . htmlspecialchars($dato['ESTADO']) . '</td>';
+                echo '<td>';
+                echo '<div class="btn-group">';
+                echo '<a href="actualizar_Categoria.php?id=' . $dato['ID_CATEGORIA'] . '" class="btn btn-warning btn-sm me-2">Editar</a>';
+                echo '<a href="eliminar_Categoria.php?id=' . $dato['ID_CATEGORIA'] . '" class="btn btn-danger btn-sm">Eliminar</a>';
+                echo '</div>';
+                echo '</td>';
+                echo '</tr>';
+            }
 
-            <div class="col-md-3 mb-4">
-                <div class="card shadow text-center">
-                    <div class="card-body">
-                        <i class="bi bi-pencil-square display-4 text-warning"></i>
-                        <h5 class="card-title mt-3">Actualizar Categoría</h5>
-                        <p class="card-text">Modifica la información de las categorías.</p>
-                        <a href="actualizar_categoria.php" class="btn btn-warning">✏️ Actualizar</a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-3 mb-4">
-                <div class="card shadow text-center">
-                    <div class="card-body">
-                        <i class="bi bi-trash display-4 text-danger"></i>
-                        <h5 class="card-title mt-3">Eliminar Categoría</h5>
-                        <p class="card-text">Elimina categorías existentes.</p>
-                        <a href="eliminar_categoria.php" class="btn btn-danger">🗑️ Eliminar</a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-3 mb-4">
-                <div class="card shadow text-center">
-                    <div class="card-body">
-                        <i class="bi bi-search display-4 text-info"></i>
-                        <h5 class="card-title mt-3">Consultar Categoría</h5>
-                        <p class="card-text">Busca y visualiza información de categorías.</p>
-                        <a href="consultar_categoria.php" class="btn btn-info">📋 Consultar</a>
-                    </div>
-                </div>
-            </div>
-        </div>
+            echo '</tbody>';
+            echo '</table>';
+        } else {
+            echo '<p>No se encontraron categorías registradas.</p>';
+        }
+        ?>
     </div>
+</div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+
+<!-- DataTables JS -->
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
+<!-- JS personalizado -->
+<script src="../../js/Datatable.js"></script>
 </body>
 </html>

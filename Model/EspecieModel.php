@@ -1,12 +1,12 @@
 <?php
 include_once $_SERVER["DOCUMENT_ROOT"] . "/Bigotitos/Conexion.php";
 
-// Consultar todas las categorías
-function ConsultarCategoriasModel() {
+// Obtener todas las especies
+function ConsultarEspeciesModel() {
     try {
         $enlace = AbrirBD();
 
-        $sentencia = "BEGIN pkg_categorias.SP_OBTENER_CATEGORIAS_CS(:cursor); END;";
+        $sentencia = "BEGIN pkg_especie.SP_OBTENER_ESPECIES_CS(:cursor); END;";
         $stmt = oci_parse($enlace, $sentencia);
 
         $cursor = oci_new_cursor($enlace);
@@ -15,44 +15,44 @@ function ConsultarCategoriasModel() {
         oci_execute($stmt);
         oci_execute($cursor, OCI_DEFAULT);
 
-        $categorias = [];
+        $especies = [];
         while ($row = oci_fetch_assoc($cursor)) {
-            $categorias[] = $row;
+            $especies[] = $row;
         }
 
         oci_free_statement($stmt);
         oci_free_statement($cursor);
         oci_close($enlace);
 
-        return $categorias;
+        return $especies;
     } catch (Exception $ex) {
-        error_log("Error en ConsultarCategoriasModel: " . $ex->getMessage());
+        error_log("Error en ConsultarEspeciesModel: " . $ex->getMessage());
         return null;
     }
 }
 
-// Consultar una categoría por ID
-function ConsultarCategoriaModel($id_categoria) {
+// Obtener especie por ID
+function ConsultarEspecieModel($id_especie) {
     try {
         $enlace = AbrirBD();
 
-        $sentencia = "BEGIN pkg_categorias.SP_OBTENER_CATEGORIA_CS(:V_ID_CATEGORIA, :V_CURSOR); END;";
+        $sentencia = "BEGIN pkg_especie.SP_OBTENER_ESPECIE_CS(:V_ID_ESPECIE, :V_CURSOR); END;";
         $stmt = oci_parse($enlace, $sentencia);
 
         $cursor = oci_new_cursor($enlace);
 
-        oci_bind_by_name($stmt, ':V_ID_CATEGORIA', $id_categoria, -1, SQLT_INT);
+        oci_bind_by_name($stmt, ':V_ID_ESPECIE', $id_especie, -1, SQLT_INT);
         oci_bind_by_name($stmt, ':V_CURSOR', $cursor, -1, OCI_B_CURSOR);
 
         oci_execute($stmt);
         oci_execute($cursor);
 
-        $categoria = null;
+        $especie = null;
         if ($row = oci_fetch_assoc($cursor)) {
-            $categoria = [
-                'ID_CATEGORIA' => $row['ID_CATEGORIA'],
-                'NOMBRE'       => $row['NOMBRE'],
-                'ESTADO'       => $row['ESTADO']
+            $especie = [
+                'ID_ESPECIE' => $row['ID_ESPECIE'],
+                'NOMBRE'     => $row['NOMBRE'],
+                'ESTADO'     => $row['ESTADO']
             ];
         }
 
@@ -60,19 +60,20 @@ function ConsultarCategoriaModel($id_categoria) {
         oci_free_statement($cursor);
         oci_close($enlace);
 
-        return $categoria;
+        return $especie;
+
     } catch (Exception $e) {
-        error_log("Error en ConsultarCategoriaModel: " . $e->getMessage());
+        error_log("Error en ConsultarEspecieModel: " . $e->getMessage());
         return null;
     }
 }
 
-// Insertar una categoría
-function IngresarCategoriaModel($nombre) {
+// Insertar especie
+function IngresarEspecieModel($nombre) {
     try {
         $enlace = AbrirBD();
 
-        $sql = 'BEGIN pkg_categorias.SP_INSERTAR_CATEGORIA(:P_NOMBRE); END;';
+        $sql = 'BEGIN pkg_especie.SP_INSERTAR_ESPECIE(:P_NOMBRE); END;';
         $stmt = oci_parse($enlace, $sql);
 
         oci_bind_by_name($stmt, ':P_NOMBRE', $nombre);
@@ -84,20 +85,20 @@ function IngresarCategoriaModel($nombre) {
 
         return $ejecutado;
     } catch (Exception $e) {
-        error_log("Error en IngresarCategoriaModel: " . $e->getMessage());
+        error_log("Error en IngresarEspecieModel: " . $e->getMessage());
         return false;
     }
 }
 
-// Actualizar una categoría
-function ActualizarCategoriaModel($id_categoria, $nombre) {
+// Actualizar especie
+function ActualizarEspecieModel($id_especie, $nombre) {
     try {
         $enlace = AbrirBD();
 
-        $sql = 'BEGIN pkg_categorias.SP_ACTUALIZAR_CATEGORIA(:P_ID_CATEGORIA, :P_NOMBRE); END;';
+        $sql = 'BEGIN pkg_especie.SP_ACTUALIZAR_ESPECIE(:P_ID_ESPECIE, :P_NOMBRE); END;';
         $stmt = oci_parse($enlace, $sql);
 
-        oci_bind_by_name($stmt, ':P_ID_CATEGORIA', $id_categoria);
+        oci_bind_by_name($stmt, ':P_ID_ESPECIE', $id_especie);
         oci_bind_by_name($stmt, ':P_NOMBRE', $nombre);
 
         $ejecutado = oci_execute($stmt);
@@ -107,20 +108,20 @@ function ActualizarCategoriaModel($id_categoria, $nombre) {
 
         return $ejecutado;
     } catch (Exception $e) {
-        error_log("Error en ActualizarCategoriaModel: " . $e->getMessage());
+        error_log("Error en ActualizarEspecieModel: " . $e->getMessage());
         return false;
     }
 }
 
-// Eliminar (cambiar estado) de categoría
-function EliminarCategoriaModel($id_categoria) {
+// Eliminar (cambiar estado) especie
+function EliminarEspecieModel($id_especie) {
     try {
         $enlace = AbrirBD();
 
-        $sql = "BEGIN pkg_categorias.SP_ELIMINAR_CATEGORIA(:P_ID_CATEGORIA); END;";
+        $sql = "BEGIN pkg_especie.SP_ELIMINAR_ESPECIE(:P_ID_ESPECIE); END;";
         $stmt = oci_parse($enlace, $sql);
 
-        oci_bind_by_name($stmt, ':P_ID_CATEGORIA', $id_categoria, -1, SQLT_INT);
+        oci_bind_by_name($stmt, ':P_ID_ESPECIE', $id_especie, -1, SQLT_INT);
 
         $resultado = oci_execute($stmt);
 
@@ -129,7 +130,7 @@ function EliminarCategoriaModel($id_categoria) {
 
         return $resultado;
     } catch (Exception $e) {
-        error_log("Error en EliminarCategoriaModel: " . $e->getMessage());
+        error_log("Error en EliminarEspecieModel: " . $e->getMessage());
         return false;
     }
 }

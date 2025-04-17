@@ -1,51 +1,65 @@
 <?php
 include_once $_SERVER["DOCUMENT_ROOT"] . "/Bigotitos/Model/ProveedoresModel.php";
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    
-    // 📌 Insertar Proveedor
-    if (isset($_POST["btnAgregarProveedor"])) {
-        $nombre = $_POST["txtNombre"];
-        $telefono = $_POST["txtTelefono"];
-        $correo = $_POST["txtCorreo"];
-        
-        if (ProveedoresModel::InsertarProveedor(null, $nombre, $telefono, $correo)) {
-            echo "<script>alert('✅ Proveedor agregado correctamente.'); window.location.href='../views/proveedores/proveedores.php';</script>";
-        } else {
-            echo "<script>alert('❌ Error al insertar proveedor. " . ProveedoresModel::InsertarProveedor(null, $nombre, $telefono, $correo) . "');</script>";
-        }
-    }
-        
-    // 📌 Actualizar Proveedor
-    if (isset($_POST["btnActualizarProveedor"])) {
-        $id = $_POST["txtIDProveedor"];
-        $nombre = $_POST["txtNombre"];
-        $telefono = $_POST["txtTelefono"];
-        $correo = $_POST["txtCorreo"];
-        
-        if (ProveedoresModel::ActualizarProveedor($id, $nombre, $telefono, $correo)) {
-            echo "<script>alert('✅ Proveedor actualizado correctamente.'); window.location.href='../Views/proveedores/proveedores.php';</script>";
-        } else {
-            echo "<script>alert('❌ Error al actualizar proveedor.'); window.location.href='../Views/proveedores/proveedores.php';</script>";
-        }
-    }
+function ConsultarProveedores() {
+    $resultado = ConsultarProveedoresModel();
 
-    // 📌 Eliminar Proveedor
-    if (isset($_POST["btnEliminarProveedor"])) {
-        $id = $_POST["txtIDProveedor"];
-        
-        if (ProveedoresModel::EliminarProveedor($id)) {
-            echo "<script>alert('✅ Proveedor eliminado correctamente.'); window.location.href='../Views/proveedores/proveedores.php';</script>";
-        } else {
-            echo "<script>alert('❌ Error al eliminar proveedor.'); window.location.href='../Views/proveedores/proveedores.php';</script>";
-        }
+    if ($resultado !== null && !empty($resultado)) {
+        return $resultado;
+    }
+    return [];
+}
+
+function ConsultarProveedor($id_proveedor) {
+    $resultado = ConsultarProveedorModel($id_proveedor);
+
+    if ($resultado !== null && !empty($resultado)) {
+        return $resultado;
     }
 }
 
-//MODIFICAR CODIGO
-/* 🔹 Consultar proveedores
-if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["listarProveedores"])) {
-    $proveedores = ProveedoresModel::ConsultarProveedores();
-    echo json_encode($proveedores);
-}*/
+if (isset($_POST["btnActualizarProveedor"])) {
+    $id_proveedor = $_POST['txtIdProveedor'];
+    $nombre       = $_POST['txtNombre'];
+    $telefono     = $_POST['txtTelefono'];
+    $correo       = $_POST['txtCorreo'];
+
+    $resultado = ActualizarProveedorModel($id_proveedor, $nombre, $telefono, $correo);
+
+    if ($resultado == true) {
+        header('location: ../Proveedores/Proveedores.php');
+        exit();
+    } else {
+        $_SESSION["mensaje"] = "No fue posible actualizar el proveedor.";
+    }
+}
+
+if (isset($_POST["btnIngresarProveedor"])) {
+    $nombre   = $_POST['txtNombre'];
+    $telefono = $_POST['txtTelefono'];
+    $correo   = $_POST['txtCorreo'];
+
+    $resultado = IngresarProveedorModel($nombre, $telefono, $correo);
+
+    if ($resultado == true) {
+        header('location: ../Proveedores/Proveedores.php');
+        exit();
+    } else {
+        $_SESSION["mensaje"] = "No fue posible ingresar el proveedor.";
+    }
+}
+
+if (isset($_POST['btnEliminarProveedor'])) {
+    $id_proveedor = $_POST['txtIdProveedor'];
+    
+    $resultado = EliminarProveedorModel($id_proveedor);
+
+    if ($resultado == true) {
+        $_SESSION['mensaje'] = "Proveedor eliminado correctamente.";
+        header('location: ../Proveedores/Proveedores.php');
+        exit();
+    }else{
+        $_SESSION["mensaje"] = "No fue posible ingresar el proveedor.";
+    }
+}
 ?>
