@@ -1,102 +1,97 @@
 <?php
-include_once "../../Model/DetalleVentaModel.php";
-include_once "../../Model/VentasModel.php";
-include_once "../../Model/ProductosModel.php";
-
-$id_detalle = DetalleVentaModel::ObtenerProximoID();
-$ventas = VentasModel::ConsultarVentas();
-$productos = ProductosModel::ConsultarProductos();
+include_once $_SERVER["DOCUMENT_ROOT"] . '/Bigotitos/Controller/DetalleVentaController.php';
 ?>
 
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>➕ Insertar Detalle de Venta - Bigotitos</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="../../assets/css/styles.css">
+    <title>Ingresar Detalle de Venta</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        .card {
+        body {
+            background-color: #f8f9fa;
+        }
+        .form-container {
             max-width: 600px;
-            margin: 0 auto;
+            margin: 50px auto;
+            padding: 30px;
+            background-color: #fff;
+            border-radius: 15px;
+            box-shadow: 0px 0px 15px rgba(0,0,0,0.1);
+        }
+        .form-title {
+            color: #1a73e8;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .btn-custom {
+            background-color: #1a73e8;
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .btn-custom:hover {
+            background-color: #1558b0;
         }
     </style>
 </head>
 <body>
 
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="../../index.php">🐾 Bigotitos</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="../../index.php">🏠 Inicio</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" href="detalle_venta.php">🧾 Detalle de Ventas</a>
-                    </li>
-                </ul>
-            </div>
+<div class="container form-container">
+    <h2 class="text-center form-title">➕ Ingresar Detalle de Venta</h2>
+    <?php if (isset($_SESSION["mensaje"])): ?>
+        <div class="alert alert-warning text-center" style="color: #000; background-color: #fff3cd; border-color: #ffeeba;">
+            <?php echo $_SESSION["mensaje"]; ?>
         </div>
-    </nav>
-
-    <div class="container my-5">
-        <div class="card shadow">
-            <div class="card-header bg-success text-white text-center">
-                <h4 class="card-title">➕ Insertar Detalle de Venta</h4>
-            </div>
-            <div class="card-body">
-                <form action="../../Controller/DetalleVentaController.php" method="POST">
-                    <input type="hidden" name="txtIDDetalle" value="<?= $id_detalle ?>">
-
-                    <div class="mb-3">
-                        <label class="form-label">Seleccionar Venta:</label>
-                        <select name="txtIDVenta" class="form-select" required>
-                            <?php foreach ($ventas as $venta): ?>
-                                <option value="<?= $venta['ID_VENTA'] ?>"><?= htmlspecialchars($venta['ID_VENTA']); ?></option>
-                            <?php endforeach; ?>
-                        </select>
-                    </div>
-
-                    <div class="mb-3">
-                        <label class="form-label">Seleccionar Producto:</label>
-                        <select name="txtIDProducto" class="form-select" required>
-                            <?php foreach ($productos as $producto): ?>
-                                <option value="<?= $producto['ID_PRODUCTO'] ?>"><?= htmlspecialchars($producto['NOMBRE']); ?></option>
-                            <?php endforeach; ?>
-                        </select>
-                    </div>
-
-                    <div class="mb-3">
-                        <label class="form-label">Cantidad:</label>
-                        <input type="number" name="txtCantidad" class="form-control" placeholder="Ingrese la cantidad" required>
-                    </div>
-
-                    <div class="mb-3">
-                        <label class="form-label">Subtotal:</label>
-                        <input type="number" step="0.01" name="txtSubtotal" class="form-control" placeholder="Ingrese el subtotal" required>
-                    </div>
-
-                    <div class="d-grid">
-                        <button type="submit" name="btnAgregarDetalleVenta" class="btn btn-success">
-                            <i class="bi bi-plus-circle"></i> Agregar Detalle
-                        </button>
-                    </div>
-                </form>
-            </div>
-            <div class="card-footer text-center">
-                <a href="detalle_venta.php" class="btn btn-secondary">
-                    <i class="bi bi-arrow-left"></i> Volver
-                </a>
-            </div>
+    <?php unset($_SESSION["mensaje"]);?>
+    <?php endif; ?>
+    <form action="" method="POST">
+        <div class="mb-3">
+            <label class="form-label">Venta</label>
+            <select class="form-control" id="txtIdVenta" name="txtIdVenta" required>
+                <option value="">Seleccione una Venta</option>
+                <?php
+                $ventas = ConsultarVentas(); 
+                foreach ($ventas as $venta) {
+                    echo '<option value="' . $venta['ID_VENTA'] . '" ' . ($datos && $datos['ID_VENTA'] == $venta['ID_VENTA'] ? 'selected' : '') . '>';
+                    echo htmlspecialchars($venta['ID_VENTA']);
+                    echo '</option>';
+                }
+                ?>
+            </select>
         </div>
-    </div>
+        <div class="mb-3">
+            <label class="form-label">Producto</label>
+            <select class="form-control" id="txtIdProducto" name="txtIdProducto" required>
+                <option value="">Seleccione un Producto</option>
+                <?php
+                $productos = ConsultarProductos(); 
+                foreach ($productos as $producto) {
+                    echo '<option value="' . $producto['ID_PRODUCTO'] . '" ' . ($datos && $datos['ID_PRODUCTO'] == $producto['ID_PRODUCTO'] ? 'selected' : '') . '>';
+                    echo htmlspecialchars($producto['NOMBRE']);
+                    echo '</option>';
+                }
+                ?>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Cantidad</label>
+            <input type="number" class="form-control" id="txtCantidad" name="txtCantidad" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Subtotal</label>
+            <input type="number" class="form-control" id="txtSubtotal" name="txtSubtotal" required>
+        </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        <div class="text-center mt-4">
+            <input type="submit" class="btn btn-custom w-100 py-2" value="Ingresar Información" id="btnIngresarDetalleVenta" name="btnIngresarDetalleVenta">
+        </div>
+        <div class="text-center mt-3">
+            <a href="../detalle_venta/detalle_ventas.php" class="btn btn-secondary w-100 py-2">Regresar</a>
+        </div>
+    </form>
+</div>
+
 </body>
 </html>

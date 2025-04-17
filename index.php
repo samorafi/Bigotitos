@@ -79,7 +79,7 @@ include_once $_SERVER["DOCUMENT_ROOT"] . "/Bigotitos/Controller/ProductosControl
                 <div class="card-body">
                     <h5 class="card-title">Gestión de Productos</h5>
                     <p class="card-text">Administra los productos de la tienda.</p>
-                    <a href="Views/productos.php" class="btn btn-success">Ir a Productos</a>
+                    <a href="Views/Productos/productos.php" class="btn btn-success">Ir a Productos</a>
                 </div>
             </div>
         </div>

@@ -1,91 +1,83 @@
 <?php
-include_once "../../Model/VentasModel.php";
-include_once "../../Model/ClientesModel.php";
-
-$id_venta = VentasModel::ObtenerProximoID();
-$clientes = ClientesModel::ConsultarClientes();
+include_once $_SERVER["DOCUMENT_ROOT"] . '/Bigotitos/Controller/VentasController.php';
 ?>
 
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>➕ Insertar Venta - Bigotitos</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="../../assets/css/styles.css">
+    <title>Ingresar Venta</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        .card {
+        body {
+            background-color: #f8f9fa;
+        }
+        .form-container {
             max-width: 600px;
-            margin: 0 auto;
+            margin: 50px auto;
+            padding: 30px;
+            background-color: #fff;
+            border-radius: 15px;
+            box-shadow: 0px 0px 15px rgba(0,0,0,0.1);
+        }
+        .form-title {
+            color: #1a73e8;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .btn-custom {
+            background-color: #1a73e8;
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .btn-custom:hover {
+            background-color: #1558b0;
         }
     </style>
 </head>
 <body>
 
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="../../index.php">🐾 Bigotitos</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="../../index.php">🏠 Inicio</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" href="ventas.php">💰 Ventas</a>
-                    </li>
-                </ul>
-            </div>
+<div class="container form-container">
+    <h2 class="text-center form-title">➕ Ingresar Venta</h2>
+    <?php if (isset($_SESSION["mensaje"])): ?>
+        <div class="alert alert-warning text-center" style="color: #000; background-color: #fff3cd; border-color: #ffeeba;">
+            <?php echo $_SESSION["mensaje"]; ?>
         </div>
-    </nav>
-
-    <div class="container my-5">
-        <div class="card shadow">
-            <div class="card-header bg-success text-white text-center">
-                <h4 class="card-title">➕ Insertar Venta</h4>
-            </div>
-            <div class="card-body">
-                <form action="../../Controller/VentasController.php" method="POST">
-                    <input type="hidden" name="txtIDVenta" value="<?= $id_venta ?>">
-
-                    <div class="mb-3">
-                        <label class="form-label">Seleccionar Cliente:</label>
-                        <select name="txtIDCliente" class="form-select" required>
-                            <?php foreach ($clientes as $cliente): ?>
-                                <option value="<?= $cliente['ID_CLIENTE'] ?>"><?= htmlspecialchars($cliente['NOMBRE']); ?></option>
-                            <?php endforeach; ?>
-                        </select>
-                    </div>
-
-                    <div class="mb-3">
-                        <label class="form-label">Fecha de Venta:</label>
-                        <input type="date" name="txtFechaVenta" class="form-control" required>
-                    </div>
-
-                    <div class="mb-3">
-                        <label class="form-label">Total:</label>
-                        <input type="number" step="0.01" name="txtTotal" class="form-control" placeholder="Ingrese el total" required>
-                    </div>
-
-                    <div class="d-grid">
-                        <button type="submit" name="btnAgregarVenta" class="btn btn-success">
-                            <i class="bi bi-plus-circle"></i> Agregar Venta
-                        </button>
-                    </div>
-                </form>
-            </div>
-            <div class="card-footer text-center">
-                <a href="ventas.php" class="btn btn-secondary">
-                    <i class="bi bi-arrow-left"></i> Volver
-                </a>
-            </div>
+    <?php unset($_SESSION["mensaje"]);?>
+    <?php endif; ?>
+    <form action="" method="POST">
+        <div class="mb-3">
+            <label class="form-label">Cliente</label>
+            <select class="form-control" id="txtIdCliente" name="txtIdCliente" required>
+                <option value="">Seleccione un Cliente</option>
+                <?php
+                $clientes = ConsultarClientes(); 
+                foreach ($clientes as $cliente) {
+                    echo '<option value="' . $cliente['ID_CLIENTE'] . '" ' . ($datos && $datos['ID_CLIENTE'] == $cliente['ID_CLIENTE'] ? 'selected' : '') . '>';
+                    echo htmlspecialchars($cliente['CLIENTE']);
+                    echo '</option>';
+                }
+                ?>
+            </select>
         </div>
-    </div>
+        <div class="mb-3">
+            <label class="form-label">Fecha de venta</label>
+            <input type="date" class="form-control" id="txtFechaVenta" name="txtFechaVenta" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Total</label>
+            <input type="number" class="form-control" id="txtTotal" name="txtTotal" required>
+        </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        <div class="text-center mt-4">
+            <input type="submit" class="btn btn-custom w-100 py-2" value="Ingresar Información" id="btnIngresarVenta" name="btnIngresarVenta">
+        </div>
+        <div class="text-center mt-3">
+            <a href="../Ventas/Ventas.php" class="btn btn-secondary w-100 py-2">Regresar</a>
+        </div>
+    </form>
+</div>
+
 </body>
 </html>

@@ -1,6 +1,6 @@
 <?php
 include_once "../../Model/DetalleVentaModel.php";
-$detalles = DetalleVentaModel::ConsultarDetalleVentas();
+$detalle_ventas = DetalleVentaModel::ConsultarDetalleVentas();
 ?>
 
 <!DOCTYPE html>
@@ -37,7 +37,7 @@ $detalles = DetalleVentaModel::ConsultarDetalleVentas();
                         <a class="nav-link" href="../../index.php">🏠 Inicio</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" href="detalle_venta.php">🧾 Detalle de Ventas</a>
+                        <a class="nav-link active" href="ventas.php">💰 Detalle de Ventas</a>
                     </li>
                 </ul>
             </div>
@@ -47,34 +47,36 @@ $detalles = DetalleVentaModel::ConsultarDetalleVentas();
     <div class="container my-5">
         <div class="card shadow">
             <div class="card-header bg-success text-white text-center">
-                <h4 class="card-title">📋 Lista de Detalle de Ventas</h4>
+                <h4 class="card-title">📋 Lista Detalles de Ventas</h4>
             </div>
             <div class="card-body">
                 <table class="table table-bordered table-striped">
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>Venta</th>
+                            <th>ID Venta</th>
+                            <th>Cliente</th>
                             <th>Producto</th>
                             <th>Cantidad</th>
                             <th>Subtotal</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <?php foreach ($detalles as $detalle): ?>
+                        <?php foreach ($ventas as $venta): ?>
                             <tr>
-                                <td><?= htmlspecialchars($detalle['ID_DETALLE']); ?></td>
-                                <td><?= htmlspecialchars($detalle['ID_VENTA']); ?></td>
-                                <td><?= htmlspecialchars($detalle['ID_PRODUCTO']); ?></td>
-                                <td><?= htmlspecialchars($detalle['CANTIDAD']); ?></td>
-                                <td><?= htmlspecialchars($detalle['SUBTOTAL']); ?></td>
+                                <td><?= htmlspecialchars($venta['ID_DETALLE']); ?></td>
+                                <td><?= htmlspecialchars($venta['ID_VENTA']); ?></td>
+                                <td><?= htmlspecialchars($venta['CLIENTE']); ?></td>
+                                <td><?= htmlspecialchars($venta['NOMBREPRODUCTO']); ?></td>
+                                <td><?= htmlspecialchars($venta['CANTIDDAD']); ?></td>
+                                <td><?= htmlspecialchars($venta['SUBTOTAL']); ?></td>
                             </tr>
                         <?php endforeach; ?>
                     </tbody>
                 </table>
             </div>
             <div class="card-footer text-center">
-                <a href="detalle_venta.php" class="btn btn-secondary">
+                <a href="detalle_ventas.php" class="btn btn-secondary">
                     <i class="bi bi-arrow-left"></i> Volver
                 </a>
             </div>
