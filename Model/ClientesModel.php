@@ -6,7 +6,7 @@ include_once $_SERVER["DOCUMENT_ROOT"] . "/Bigotitos/Conexion.php";
         try {
             $enlace = AbrirBD();
 
-            $sentencia = "BEGIN SP_OBTENER_CLIENTES_CS(:cursor); END;";
+            $sentencia = "BEGIN PKG_CLIENTES.SP_OBTENER_CLIENTES_CS(:cursor); END;";
             $stmt = oci_parse($enlace, $sentencia);
 
             $cursor = oci_new_cursor($enlace);
@@ -36,7 +36,7 @@ include_once $_SERVER["DOCUMENT_ROOT"] . "/Bigotitos/Conexion.php";
         try {
             $enlace = AbrirBD();
 
-            $sentencia = "BEGIN SP_OBTENER_CLIENTE_CS(:V_ID_CLIENTE, :V_CURSOR); END;";
+            $sentencia = "BEGIN PKG_CLIENTES.SP_OBTENER_CLIENTE_CS(:V_ID_CLIENTE, :V_CURSOR); END;";
             $stmt = oci_parse($enlace, $sentencia);
 
             $cursor = oci_new_cursor($enlace);
@@ -77,7 +77,7 @@ include_once $_SERVER["DOCUMENT_ROOT"] . "/Bigotitos/Conexion.php";
         try {
             $enlace = AbrirBD();
     
-            $sql = 'BEGIN SP_INSERTAR_CLIENTES(:P_ID_USUARIO, :P_DIRECCION); END;';
+            $sql = 'BEGIN PKG_CLIENTES.SP_INSERTAR_CLIENTES(:P_ID_USUARIO, :P_DIRECCION); END;';
             $stmt = oci_parse($enlace, $sql);
     
             oci_bind_by_name($stmt, ':P_ID_USUARIO', $id_usuario);
@@ -103,7 +103,7 @@ include_once $_SERVER["DOCUMENT_ROOT"] . "/Bigotitos/Conexion.php";
         try {
             $enlace = AbrirBD();
     
-            $sql = 'BEGIN SP_ACTUALIZAR_CLIENTES(:P_ID_CLIENTE, :P_ID_USUARIO, :P_DIRECCION); END;';
+            $sql = 'BEGIN PKG_CLIENTES.SP_ACTUALIZAR_CLIENTES(:P_ID_CLIENTE, :P_ID_USUARIO, :P_DIRECCION); END;';
             $stmt = oci_parse($enlace, $sql);
     
             oci_bind_by_name($stmt, ':P_ID_CLIENTE', $id_cliente);
@@ -129,7 +129,7 @@ include_once $_SERVER["DOCUMENT_ROOT"] . "/Bigotitos/Conexion.php";
     function EliminarClienteModel($id_cliente) {
         try {
             $enlace = AbrirBD();
-            $sql = "BEGIN SP_ELIMINAR_CLIENTE(:P_ID_CLIENTE); END;";
+            $sql = "BEGIN PKG_CLIENTES.SP_ELIMINAR_CLIENTE(:P_ID_CLIENTE); END;";
             $stmt = oci_parse($enlace, $sql);
 
             oci_bind_by_name($stmt, ':P_ID_CLIENTE', $id_cliente, -1, SQLT_INT);

@@ -6,7 +6,7 @@ include_once $_SERVER["DOCUMENT_ROOT"] . "/Bigotitos/Conexion.php";
 
             $enlace = AbrirBD();
 
-            $sentencia = "BEGIN SP_OBTENER_USUARIOS_CS(:cursor); END;";
+            $sentencia = "BEGIN PKG_USUARIOS.SP_OBTENER_USUARIOS_CS(:cursor); END;";
             $stmt = oci_parse($enlace, $sentencia);
 
             $cursor = oci_new_cursor($enlace);
@@ -38,7 +38,7 @@ include_once $_SERVER["DOCUMENT_ROOT"] . "/Bigotitos/Conexion.php";
         try {
             $enlace = AbrirBD();
 
-            $sentencia = "BEGIN SP_OBTENER_USUARIO_CS(:V_ID_USUARIO, :V_CURSOR); END;";
+            $sentencia = "BEGIN PKG_USUARIOS.SP_OBTENER_USUARIO_CS(:V_ID_USUARIO, :V_CURSOR); END;";
             $stmt = oci_parse($enlace, $sentencia);
 
             $cursor = oci_new_cursor($enlace);
@@ -77,7 +77,7 @@ include_once $_SERVER["DOCUMENT_ROOT"] . "/Bigotitos/Conexion.php";
         try {
             $enlace = AbrirBD();
     
-            $sql = 'BEGIN SP_INSERTAR_USUARIO(:P_NOMBRE, :P_APELLIDO, :P_TELEFONO, :P_CORREO, :P_CONTRASENNA); END;';
+            $sql = 'BEGIN PKG_USUARIOS.SP_INSERTAR_USUARIO(:P_NOMBRE, :P_APELLIDO, :P_TELEFONO, :P_CORREO, :P_CONTRASENNA); END;';
             $stmt = oci_parse($enlace, $sql);
     
             oci_bind_by_name($stmt, ':P_NOMBRE', $nombre);
@@ -106,7 +106,7 @@ include_once $_SERVER["DOCUMENT_ROOT"] . "/Bigotitos/Conexion.php";
         try {
             $enlace = AbrirBD();
     
-            $sql = 'BEGIN SP_ACTUALIZAR_USUARIO(:P_ID_USUARIO, :P_NOMBRE, :P_APELLIDO, :P_TELEFONO, :P_CORREO); END;';
+            $sql = 'BEGIN PKG_USUARIOS.SP_ACTUALIZAR_USUARIO(:P_ID_USUARIO, :P_NOMBRE, :P_APELLIDO, :P_TELEFONO, :P_CORREO); END;';
             $stmt = oci_parse($enlace, $sql);
     
             oci_bind_by_name($stmt, ':P_ID_USUARIO', $id_usuario);
@@ -134,25 +134,23 @@ include_once $_SERVER["DOCUMENT_ROOT"] . "/Bigotitos/Conexion.php";
     function EliminarUsuarioModel($id_usuario) {
         try {
             $enlace = AbrirBD();
-            $sql = "BEGIN SP_ELIMINAR_USUARIO(:V_ID_USUARIO); END;";
+            $sql = "BEGIN PKG_USUARIOS.SP_ELIMINAR_USUARIO(:V_ID_USUARIO); END;";
             $stmt = oci_parse($enlace, $sql);
-
+    
             oci_bind_by_name($stmt, ':V_ID_USUARIO', $id_usuario, -1, SQLT_INT);
-
+    
             $resultado = oci_execute($stmt);
-
-            if ($resultado) {
-                return true;
-            } else {
-                return false;
-            }
-
+    
             oci_free_statement($stmt);
             oci_close($enlace);
+    
+            return $resultado;
+    
         } catch (Exception $e) {
             error_log("Error al eliminar usuario: " . $e->getMessage());
             return false;
         }
     }
+    
 
 ?>

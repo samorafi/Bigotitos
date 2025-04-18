@@ -28,7 +28,7 @@ if (isset($_POST["btnActualizarEspecie"])) {
     $resultado = ActualizarEspecieModel($id_especie, $nombre);
 
     if ($resultado == true) {
-        header('location: ../Especie/Especie.php');
+        header('location: ../especies/especies.php');
         exit();
     } else {
         $_SESSION["mensaje"] = "No fue posible actualizar la especie.";
@@ -42,7 +42,7 @@ if (isset($_POST["btnIngresarEspecie"])) {
     $resultado = IngresarEspecieModel($nombre);
 
     if ($resultado == true) {
-        header('location: ../Especie/Especie.php');
+        header('location: ../especies/especies.php');
         exit();
     } else {
         $_SESSION["mensaje"] = "No fue posible ingresar la especie.";
@@ -57,7 +57,7 @@ if (isset($_POST['btnEliminarEspecie'])) {
 
     if ($resultado == true) {
         $_SESSION['mensaje'] = "Especie eliminada correctamente.";
-        header('location: ../Especie/Especie.php');
+        header('location: ../especies/especies.php');
         exit();
     } else {
         $_SESSION['mensaje'] = "No fue posible eliminar la especie.";

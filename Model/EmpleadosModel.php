@@ -5,7 +5,7 @@ include_once $_SERVER["DOCUMENT_ROOT"] . "/Bigotitos/Conexion.php";
     function ConsultarEmpleadosModel() {
         try {
             $enlace = AbrirBD(); 
-            $sql = "BEGIN SP_OBTENER_EMPLEADOS_CS(:P_CURSOR); END;";
+            $sql = "BEGIN PKG_EMPLEADOS.SP_OBTENER_EMPLEADOS_CS(:P_CURSOR); END;";
 
             $stmt = oci_parse($enlace, $sql);
             $cursor = oci_new_cursor($enlace);
@@ -35,7 +35,7 @@ include_once $_SERVER["DOCUMENT_ROOT"] . "/Bigotitos/Conexion.php";
         try {
             $enlace = AbrirBD();
 
-            $sentencia = "BEGIN SP_OBTENER_EMPLEADO_CS(:V_ID_EMPLEADO, :V_CURSOR); END;";
+            $sentencia = "BEGIN PKG_EMPLEADOS.SP_OBTENER_EMPLEADO_CS(:V_ID_EMPLEADO, :V_CURSOR); END;";
             $stmt = oci_parse($enlace, $sentencia);
 
             $cursor = oci_new_cursor($enlace);
@@ -76,7 +76,7 @@ include_once $_SERVER["DOCUMENT_ROOT"] . "/Bigotitos/Conexion.php";
         try {
             $enlace = AbrirBD();
     
-            $sql = 'BEGIN SP_INSERTAR_EMPLEADOS(:P_ID_USUARIO, :P_CARGO); END;';
+            $sql = 'BEGIN PKG_EMPLEADOS.SP_INSERTAR_EMPLEADOS(:P_ID_USUARIO, :P_CARGO); END;';
             $stmt = oci_parse($enlace, $sql);
     
             oci_bind_by_name($stmt, ':P_ID_USUARIO', $id_usuario);
@@ -102,7 +102,7 @@ include_once $_SERVER["DOCUMENT_ROOT"] . "/Bigotitos/Conexion.php";
         try {
             $enlace = AbrirBD();
     
-            $sql = 'BEGIN SP_ACTUALIZAR_EMPLEADOS(:P_ID_EMPLEADO, :P_ID_USUARIO, :P_CARGO); END;';
+            $sql = 'BEGIN PKG_EMPLEADOS.SP_ACTUALIZAR_EMPLEADOS(:P_ID_EMPLEADO, :P_ID_USUARIO, :P_CARGO); END;';
             $stmt = oci_parse($enlace, $sql);
     
             oci_bind_by_name($stmt, ':P_ID_EMPLEADO', $id_empleado);
@@ -128,7 +128,7 @@ include_once $_SERVER["DOCUMENT_ROOT"] . "/Bigotitos/Conexion.php";
     function EliminarEmpleadoModel($id_empleado) {
         try {
             $enlace = AbrirBD();
-            $sql = "BEGIN SP_ELIMINAR_EMPLEADOS(:P_ID_EMPLEADO); END;";
+            $sql = "BEGIN PKG_EMPLEADOS.SP_ELIMINAR_EMPLEADOS(:P_ID_EMPLEADO); END;";
             $stmt = oci_parse($enlace, $sql);
 
             oci_bind_by_name($stmt, ':P_ID_EMPLEADO', $id_empleado, -1, SQLT_INT);
