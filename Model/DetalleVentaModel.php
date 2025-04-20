@@ -159,38 +159,7 @@ include_once $_SERVER["DOCUMENT_ROOT"] . "/Bigotitos/Conexion.php";
         }
     }
 
-    function ConsultarUsuariosModel() {
-        try {
-
-            $enlace = AbrirBD();
-
-            $sentencia = "BEGIN SP_OBTENER_USUARIOS_CS(:cursor); END;";
-            $stmt = oci_parse($enlace, $sentencia);
-
-            $cursor = oci_new_cursor($enlace);
-
-            oci_bind_by_name($stmt, ":cursor", $cursor, -1, OCI_B_CURSOR);
-
-            oci_execute($stmt);
-
-            oci_execute($cursor);
-
-            $usuarios = [];
-
-            while ($row = oci_fetch_assoc($cursor)) {
-                $usuarios[] = $row;
-            }
-
-            oci_free_statement($stmt);
-            oci_free_statement($cursor);
-            oci_close($enlace);
-            return $usuarios;
-
-        } catch (Exception $ex) {
-            error_log("Error en ConsultarUsuariosModel: " . $ex->getMessage());
-            return null;
-        }
-    }
+    
 
     function ConsultarDetalleProductosModel() {
         try {

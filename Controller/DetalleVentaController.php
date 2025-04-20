@@ -1,5 +1,7 @@
 <?php
 include_once $_SERVER["DOCUMENT_ROOT"] . "/Bigotitos/Model/DetalleVentaModel.php";
+include_once $_SERVER["DOCUMENT_ROOT"] . "/Bigotitos/Model/UsuarioModel.php";
+include_once $_SERVER["DOCUMENT_ROOT"] . "/Bigotitos/Model/VentasModel.php";
 
     function ConsultarDetalleVentas() {
         $resultado = ConsultarDetalleVentasModel();
@@ -84,7 +86,7 @@ include_once $_SERVER["DOCUMENT_ROOT"] . "/Bigotitos/Model/DetalleVentaModel.php
     }
 
     function ConsultarVentas() {
-        $resultado = ConsultarDetalleVentasModel();
+        $resultado = ConsultarVentasModel();
  
         if ($resultado !== null && !empty($resultado)) {
             return $resultado;
