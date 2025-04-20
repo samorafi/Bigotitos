@@ -1,5 +1,6 @@
 <?php
 include_once $_SERVER["DOCUMENT_ROOT"] . "/Bigotitos/Model/LoginModel.php";
+include_once $_SERVER["DOCUMENT_ROOT"] . "/Bigotitos/Model/UsuarioModel.php";
 
 function MostrarLogin()
 {
@@ -45,5 +46,21 @@ if (isset($_GET['logout'])) {
     exit();
 }
 
+if (isset($_POST["btnRegistrarUsuario"])) {
+    $nombre = $_POST['txtNombre'];
+    $apellido = $_POST['txtapellido'];
+    $telefono = $_POST['txtTelefono'];
+    $correo = $_POST['txtCorreo'];
+    $contrasenna = $_POST['txtContrasenna'];
+   
+    $resultado = IngresarUsuarioModel($nombre, $apellido, $telefono, $correo, $contrasenna);
+
+    if ($resultado == true) {
+        header('location: ../login/login.php');
+        exit();
+    } else {
+        $_SESSION["mensaje"] = "No fue posible registrar el usuario.";
+    }
+}
 
 ?>
