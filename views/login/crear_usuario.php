@@ -1,12 +1,12 @@
 <?php
-include_once $_SERVER["DOCUMENT_ROOT"] . '/Bigotitos/Controller/EspecieController.php';
+include_once $_SERVER["DOCUMENT_ROOT"] . '/Bigotitos/Controller/loginController.php';
 ?>
 
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Ingresar Especie</title>
+    <title>Ingresar Usuario</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
@@ -39,28 +39,40 @@ include_once $_SERVER["DOCUMENT_ROOT"] . '/Bigotitos/Controller/EspecieControlle
 <body>
 
 <div class="container form-container">
-    <h2 class="text-center form-title">➕ Ingresar Especie</h2>
-
+    <h2 class="text-center form-title">➕ Registrar Usuario</h2>
     <?php if (isset($_SESSION["mensaje"])): ?>
         <div class="alert alert-warning text-center" style="color: #000; background-color: #fff3cd; border-color: #ffeeba;">
             <?php echo $_SESSION["mensaje"]; ?>
         </div>
-        <?php unset($_SESSION["mensaje"]); ?>
+    <?php unset($_SESSION["mensaje"]);?>
     <?php endif; ?>
-
     <form action="" method="POST">
         <div class="mb-3">
-            <label class="form-label">Nombre de la Especie</label>
+            <label class="form-label">Nombre</label>
             <input type="text" class="form-control" id="txtNombre" name="txtNombre" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Apellido</label>
+            <input type="text" class="form-control" id="txtapellido" name="txtapellido" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Teléfono</label>
+            <input type="tel" class="form-control" id="txtTelefono" name="txtTelefono" pattern="[0-9]{8,15}" required>
+            <small class="form-text text-muted">Ingrese solo números (8-15 dígitos).</small>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Correo Electrónico</label>
+            <input type="email" class="form-control" id="txtCorreo" name="txtCorreo" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Contraseña</label>
+            <input type="password" class="form-control" id="txtContrasenna" name="txtContrasenna" required>
         </div>
 
         <div class="text-center mt-4">
-            <input type="submit" class="btn btn-custom w-100 py-2" value="Ingresar Información" id="btnIngresarEspecie" name="btnIngresarEspecie">
+            <input type="submit" class="btn btn-custom w-100 py-2" value="Ingresar Información" id="btnRegistrarUsuario" name="btnRegistrarUsuario">
         </div>
-
-        <div class="text-center mt-3">
-            <a href="../especies/especies.php" class="btn btn-secondary w-100 py-2">Regresar</a>
-        </div>
+        
     </form>
 </div>
 

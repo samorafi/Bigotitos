@@ -62,8 +62,12 @@ unset($_SESSION['login_error']);
                             <button type="submit" name="btnLogin" class="btn btn-primary w-100">
                                 <i class="bi bi-box-arrow-in-right me-1"></i> Entrar
                             </button>
+                            <hr>                            
                         </form>
 
+                        <a href="crear_usuario.php" class="btn btn-success w-100">Registrar nueva cuenta</a>
+                                               
+                        
                     </div>
                 </div>
             </div>
