@@ -8,4 +8,8 @@ function ObtenerDatosGraficoClientesPremium() {
 function ObtenerDatosStockProductos() {
     return ObtenerStockProductos();
 }
+
+function ObtenerResumenGeneral() {
+    return ObtenerResumenGeneralModel();
+}
 ?>
