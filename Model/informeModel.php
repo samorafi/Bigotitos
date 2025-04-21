@@ -5,16 +5,21 @@ function ObtenerClientesPremiumModel() {
     try {
         $conn = AbrirBD();
 
-        $sql = "SELECT NOMBRE || ' ' || APELLIDO AS NOMBRE_COMPLETO, TOTAL_GASTADO FROM V_CLIENTES_PREMIUM";
-        $stmt = oci_parse($conn, $sql);
-        oci_execute($stmt);
+        $stmt = oci_parse($conn, "BEGIN PK_REPORTES.MOSTRAR_CLIENTES_PREMIUM(:cursor); END;");
+        
+        $cursor = oci_new_cursor($conn);
+        oci_bind_by_name($stmt, ":cursor", $cursor, -1, OCI_B_CURSOR);
+
+        oci_execute($stmt);     
+        oci_execute($cursor);     
 
         $clientes = [];
-        while ($row = oci_fetch_assoc($stmt)) {
+        while ($row = oci_fetch_assoc($cursor)) {
             $clientes[] = $row;
         }
 
         oci_free_statement($stmt);
+        oci_free_statement($cursor);
         oci_close($conn);
 
         return $clientes;
@@ -24,6 +29,7 @@ function ObtenerClientesPremiumModel() {
     }
 }
 
+
 function ObtenerStockProductos() {
     $conn = AbrirBD();
     $datos = [];
@@ -32,20 +38,24 @@ function ObtenerStockProductos() {
         return $datos;
     }
 
-    $sql = "SELECT PRODUCTO, PROVEEDOR, EXISTENCIAS FROM V_STOCK_PRODUCTOS";
-    $stmt = oci_parse($conn, $sql);
+    $stmt = oci_parse($conn, "BEGIN PK_REPORTES.MOSTRAR_STOCK_PRODUCTOS(:cursor); END;");
+    $cursor = oci_new_cursor($conn);
 
-    if (oci_execute($stmt)) {
-        while ($row = oci_fetch_assoc($stmt)) {
+    oci_bind_by_name($stmt, ":cursor", $cursor, -1, OCI_B_CURSOR);
+
+    if (oci_execute($stmt) && oci_execute($cursor)) {
+        while ($row = oci_fetch_assoc($cursor)) {
             $datos[] = $row;
         }
     }
 
     oci_free_statement($stmt);
+    oci_free_statement($cursor);
     oci_close($conn);
 
     return $datos;
 }
+
 
 function ObtenerResumenGeneralModel() {
     $conn = AbrirBD();
